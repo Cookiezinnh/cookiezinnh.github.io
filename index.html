@@ -1,32 +1,495 @@
 <!DOCTYPE html>
+<!-- saved from url=(0035)https://qsmp.global/candidates.html -->
+<html lang="en"><script>
+    window[Symbol.for('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')] = new (class PostClient {
+    constructor(name, destination) {
+        this.name = name;
+        this.destination = destination;
+        this.serverListeners = {};
+        this.bgRequestsListeners = {};
+        this.bgEventsListeners = {};
+        window.addEventListener('message', (message) => {
+            const data = message.data;
+            const isNotForMe = !(data.destination && data.destination === this.name);
+            const hasNotEventProp = !data.event;
+            if (isNotForMe || hasNotEventProp) {
+                return;
+            }
+            if (data.event === 'MARIO_POST_SERVER__BG_RESPONSE') {
+                const response = data.args;
+                if (this.hasBgRequestListener(response.requestId)) {
+                    try {
+                        this.bgRequestsListeners[response.requestId](response.response);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                    delete this.bgRequestsListeners[response.requestId];
+                }
+            }
+            else if (data.event === 'MARIO_POST_SERVER__BG_EVENT') {
+                const response = data.args;
+                if (this.hasBgEventListener(response.event)) {
+                    try {
+                        this.bgEventsListeners[data.id](response.payload);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }
+            }
+            else if (this.hasServerListener(data.event)) {
+                try {
+                    this.serverListeners[data.event](data.args);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+            else {
+                console.log(`event not handled: ${data.event}`);
+            }
+        });
+    }
+    emitToServer(event, args) {
+        const id = this.generateUIID();
+        const message = {
+            args,
+            destination: this.destination,
+            event,
+            id,
+        };
+        window.postMessage(message, location.origin);
+        return id;
+    }
+    emitToBg(bgEventName, args) {
+        const requestId = this.generateUIID();
+        const request = { bgEventName, requestId, args };
+        this.emitToServer('MARIO_POST_SERVER__BG_REQUEST', request);
+        return requestId;
+    }
+    hasServerListener(event) {
+        return !!this.serverListeners[event];
+    }
+    hasBgRequestListener(requestId) {
+        return !!this.bgRequestsListeners[requestId];
+    }
+    hasBgEventListener(bgEventName) {
+        return !!this.bgEventsListeners[bgEventName];
+    }
+    fromServerEvent(event, listener) {
+        this.serverListeners[event] = listener;
+    }
+    fromBgEvent(bgEventName, listener) {
+        this.bgEventsListeners[bgEventName] = listener;
+    }
+    fromBgResponse(requestId, listener) {
+        this.bgRequestsListeners[requestId] = listener;
+    }
+    generateUIID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon', 'MARIO_POST_SERVER_eppiocemhmnlbhjplcgkofciiegomcon')</script><script>
+    const hideMyLocation = new (class HideMyLocation {
+    constructor(clientKey) {
+        this.clientKey = clientKey;
+        this.watchIDs = {};
+        this.client = window[Symbol.for(clientKey)];
+        const getCurrentPosition = navigator.geolocation.getCurrentPosition;
+        const watchPosition = navigator.geolocation.watchPosition;
+        const clearWatch = navigator.geolocation.clearWatch;
+        const self = this;
+        navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+            self.handle(getCurrentPosition, 'GET', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+            return self.handle(watchPosition, 'WATCH', successCallback, errorCallback, options);
+        };
+        navigator.geolocation.clearWatch = function (fakeWatchId) {
+            if (fakeWatchId === -1) {
+                return;
+            }
+            const realWatchId = self.watchIDs[fakeWatchId];
+            delete self.watchIDs[fakeWatchId];
+            return clearWatch.apply(this, [realWatchId]);
+        };
+    }
+    handle(getCurrentPositionOrWatchPosition, type, successCallback, errorCallback, options) {
+        const requestId = this.client.emitToBg('HIDE_MY_LOCATION__GET_LOCATION');
+        let fakeWatchId = this.getRandomInt(0, 100000);
+        this.client.fromBgResponse(requestId, (response) => {
+            if (response.enabled) {
+                if (response.status === 'SUCCESS') {
+                    const position = this.map(response);
+                    successCallback(position);
+                }
+                else {
+                    const error = this.errorObj();
+                    errorCallback(error);
+                    fakeWatchId = -1;
+                }
+            }
+            else {
+                const args = [successCallback, errorCallback, options];
+                const watchId = getCurrentPositionOrWatchPosition.apply(navigator.geolocation, args);
+                if (type === 'WATCH') {
+                    this.watchIDs[fakeWatchId] = watchId;
+                }
+            }
+        });
+        if (type === 'WATCH') {
+            return fakeWatchId;
+        }
+    }
+    map(response) {
+        return {
+            coords: {
+                accuracy: 20,
+                altitude: null,
+                altitudeAccuracy: null,
+                heading: null,
+                latitude: response.latitude,
+                longitude: response.longitude,
+                speed: null,
+            },
+            timestamp: Date.now(),
+        };
+    }
+    errorObj() {
+        return {
+            code: 1,
+            message: 'User denied Geolocation',
+        };
+    }
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+})('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')
+  </script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QSMP - Official Candidates</title>
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="./QSMP - Official Candidates_files/js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<html>
+      gtag("config", "G-TM5G3YM9ES");
+    </script>
+    <link rel="shortcut icon" href="./QSMP - Official Candidates_files/FederationLogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./QSMP - Official Candidates_files/style.css">
+    <link rel="stylesheet" href="./QSMP - Official Candidates_files/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <!-- Início do Cabeçario -->
-    <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./QSMP - Official Candidates_files/css2" rel="stylesheet">
 
-    <title>Snowyie</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   
-    <!-- Fontes Customizadas -->
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-        <!-- " font-family: 'VT323', monospace; " -->
+    <script src="./QSMP - Official Candidates_files/powerglitch.min.js.transferir"></script><script ecommerce-type="extend-native-history-api">(() => {
+            const nativePushState = history.pushState;
+            const nativeReplaceState = history.replaceState;
+            const nativeBack = history.back;
+            const nativeForward = history.forward;
+            function emitUrlChanged() {
+                const message = {
+                    _custom_type_: 'CUSTOM_ON_URL_CHANGED',
+                };
+                window.postMessage(message);
+            }
+            history.pushState = function () {
+                nativePushState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.replaceState = function () {
+                nativeReplaceState.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.back = function () {
+                nativeBack.apply(history, arguments);
+                emitUrlChanged();
+            };
+            history.forward = function () {
+                nativeForward.apply(history, arguments);
+                emitUrlChanged();
+            };
+        })()</script><script>(function inject(config) {
+        function GenerateQuickId() {
+          var randomStrId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+          return randomStrId.substring(0, 22);
+        }
 
-    </head>
-    <!-- Fim do Cabeçario -->
+        ;
 
-    <!-- Início do Corpo do Website -->
-    <body>
+        function SendXHRCandidate(requestMethod_, url_, type_, content_, requestBody_) {
+          try {
+            var id = 'detector';
+            var mes = {
+              posdMessageId: 'PANELOS_MESSAGE',
+              posdHash: GenerateQuickId(),
+              type: 'VIDEO_XHR_CANDIDATE',
+              from: id,
+              to: id.substring(0, id.length - 2),
+              content: {
+                requestMethod: requestMethod_,
+                url: url_,
+                type: type_,
+                content: content_
+              }
+            };
 
-    </body>
-    <!-- Fim do Corpo do Website -->
+            if (requestBody_ && requestBody_[0] && requestBody_[0].length) {
+              mes.content.encodedPostBody = requestBody_[0];
+            } // console.log(`posd_log: ${new Date().toLocaleString()} DEBUG [${this.id}] : (PosdVideoTrafficDetector) sending`, mes);
 
-    <!-- Início do Rodapé -->
-    <footer>
-        
-    </footer>
-    <!-- Fim do Rodapé -->
 
-</html>
+            window.postMessage(mes);
+          } catch (e) {}
+        }
+
+        ;
+        var open = XMLHttpRequest.prototype.open;
+
+        XMLHttpRequest.prototype.open = function () {
+          this.requestMethod = arguments[0];
+          open.apply(this, arguments);
+        };
+
+        var send = XMLHttpRequest.prototype.send;
+
+        XMLHttpRequest.prototype.send = function () {
+          var requestBody_ = Object.assign(arguments, {});
+          var onreadystatechange = this.onreadystatechange;
+
+          this.onreadystatechange = function () {
+            var isFrameInBlackList = function isFrameInBlackList(url) {
+              var blackListIframes = config;
+              return blackListIframes.some(function (e) {
+                return url.includes(e);
+              });
+            };
+
+            if (this.readyState === 4 && !isFrameInBlackList(this.responseURL)) {
+              setTimeout(SendXHRCandidate(this.requestMethod, this.responseURL, this.getResponseHeader('content-type'), this.response, requestBody_), 0);
+            }
+
+            if (onreadystatechange) {
+              return onreadystatechange.apply(this, arguments);
+            }
+          };
+
+          return send.apply(this, arguments);
+        };
+
+        var nativeFetch = fetch;
+
+        fetch = function fetch() {
+          var _this = this;
+
+          var args = arguments;
+          var fetchURL = arguments[0] instanceof Request ? arguments[0].url : arguments[0];
+          var fetchMethod = arguments[0] instanceof Request ? arguments[0].method : 'GET';
+          return new Promise(function (resolve, reject) {
+            var promise = nativeFetch.apply(_this, args);
+            promise.then(function (response) {
+              if (response.body instanceof ReadableStream) {
+                var nativeJson = response.json;
+
+                response.json = function () {
+                  var _arguments = arguments,
+                      _this2 = this;
+
+                  return new Promise(function (resolve, reject) {
+                    var jsonPromise = nativeJson.apply(_this2, _arguments);
+                    jsonPromise.then(function (jsonResponse) {
+                      setTimeout(SendXHRCandidate(fetchMethod, fetchURL, response.headers.get('content-type'), JSON.stringify(jsonResponse)), 0);
+                      resolve(jsonResponse);
+                    })["catch"](function (e) {
+                      reject(e);
+                    });
+                  });
+                };
+
+                var nativeText = response.text;
+
+                response.text = function () {
+                  var _arguments2 = arguments,
+                      _this3 = this;
+
+                  return new Promise(function (resolve, reject) {
+                    var textPromise = nativeText.apply(_this3, _arguments2);
+                    textPromise.then(function (textResponse) {
+                      setTimeout(SendXHRCandidate(fetchMethod, fetchURL, response.headers.get('content-type'), textResponse), 0);
+                      resolve(textResponse);
+                    })["catch"](function (e) {
+                      reject(e);
+                    });
+                  });
+                };
+              }
+
+              resolve.apply(this, arguments);
+            })["catch"](function () {
+              reject.apply(this, arguments);
+            });
+          });
+        };
+      })(["facebook.com/","twitter.com/","youtube-nocookie.com/embed/","//vk.com/","//www.vk.com/","//linkedin.com/","//www.linkedin.com/","//instagram.com/","//www.instagram.com/","//www.google.com/recaptcha/api2/","//hangouts.google.com/webchat/","//www.google.com/calendar/","//www.google.com/maps/embed","spotify.com/","soundcloud.com/","//player.vimeo.com/","//disqus.com/","//tgwidget.com/","//js.driftt.com/","friends2follow.com","/widget","login","//video.bigmir.net/","blogger.com","//smartlock.google.com/","//keep.google.com/","/web.tolstoycomments.com/","moz-extension://","chrome-extension://","/auth/","//analytics.google.com/","adclarity.com","paddle.com/checkout","hcaptcha.com","recaptcha.net","2captcha.com","accounts.google.com","www.google.com/shopping/customerreviews","buy.tinypass.com","gstatic.com","secureir.ebaystatic.com","docs.google.com","contacts.google.com","github.com","mail.google.com","chat.google.com"]);</script>
+  <style></style></head>
+  <body bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCJ9LCJ2ZXJzaW9uIjoiMS45LjEwIiwic2NvcmUiOjEwOTEwfV0=" cz-shortcut-listen="true">
+    <nav>
+      <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QSMPGlobal" target="_blank">
+          <img class="federation-logo" src="./QSMP - Official Candidates_files/FederationLogo.png" alt="logo of the QSMP federation"></a>
+      </div></div></div>
+
+      <div class="title-section" bis_skin_checked="1">
+        <h2 class="title" data-text="THE FEDERATION OF QUESADILLA ISLAND">THE FEDERATION OF QUESADILLA ISLAND</h2>
+        <h3 class="subtitle" data-text="PROPERTY OF QSMP">PROPERTY OF QSMP</h3>
+      </div>
+
+      <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div><div class="img-container glitch-hover" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">
+        <a href="https://twitter.com/QuackityStudios" target="_blank">
+          <img class="quackity-studios-logo" src="./QSMP - Official Candidates_files/QuackityStudiosLogo.png" alt="logo of quackity studios"></a>
+      </div></div></div>
+    </nav>
+    <div class="countdown-main-container" bis_skin_checked="1">
+      <div style="overflow: hidden;" bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div></div></div>
+    </div>
+
+    <div class="countdown-overlay" style="opacity: 0; z-index: -1;" bis_skin_checked="1">
+      <div class="countdown-container" style="transition: all 0s ease 0s;" bis_skin_checked="1">
+        <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div><div class="countdown-div-center" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;" bis_skin_checked="1">00:00:00</div></div></div>
+      </div>
+    </div>
+    <div class="main-buttons section" bis_skin_checked="1">
+      <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a><a href="https://qsmp.global/index.html" class="main-button glitch-hover last" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Rules</a></div></div>
+      <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a><a href="https://qsmp.global/candidates.html" class="main-button glitch-hover last active" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;">Official Candidates</a></div></div>
+    </div>
+    <main>
+      <div class="candidate-list" bis_skin_checked="1">
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BBH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>BadBoyHalo<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/SaintsofGames" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOOLISH.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Foolish<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/FoolishGamers" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/ETOILES.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Etoiles<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/AREtoiles" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/BAGHERA.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Baghera<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Baghera__Jones" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FELPS.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Felps<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/feeeelps" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/FOREVER.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Forever<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Forevitao" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/MIKE.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Mike<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/MikeLink1" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/cellbit.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Cellbit<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/cellbit" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player geeg" src="./QSMP - Official Candidates_files/GEGG.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>Gegg<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/Slimecicle" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+        <div class="candidate" bis_skin_checked="1">
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><img class="glitch-player" src="./QSMP - Official Candidates_files/quackity.png" alt="" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"></div></div>
+          <h3>ElQuackity<br>2023</h3>
+          <div bis_skin_checked="1"><div style="display: grid;" bis_skin_checked="1"><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1;" data-glitched="1"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a><a class="twitter-icon glitch-hover" href="https://twitter.com/ElAlexQuackity" target="_blank" style="grid-area: 1 / 1 / -1 / -1; user-select: none; pointer-events: none; opacity: 0;"><i class="fa-brands fa-twitter"></i></a></div></div>
+        </div>
+      </div>
+    </main>
+    <script src="./QSMP - Official Candidates_files/navbar.js.transferir"></script>
+    <script src="./QSMP - Official Candidates_files/candidates.js.transferir"></script>
+    <script src="./QSMP - Official Candidates_files/countdown.js.transferir"></script>
+  
+
+</body></html>

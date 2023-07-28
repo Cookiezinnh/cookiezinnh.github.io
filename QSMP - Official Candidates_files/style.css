@@ -1,0 +1,696 @@
+/* Declaration of font */
+@font-face {
+  font-family: "courier-prime";
+  src: url("font/CourierPrime-Regular.ttf");
+}
+
+@font-face {
+  font-family: "transcend";
+  src: url("font/Transcend-SemiBold.ttf");
+}
+
+/* Declaration on global colors */
+:root {
+  --black: #131313;
+  --white: white;
+  --unselected: #969696;
+
+  --candidate-red: #db4839;
+  --candidate-blue: #4c3cf5;
+
+  --countdown-red: #ff3232;
+
+  --countdown-overlay-transparent-dark: rgba(19, 19, 19, 1);
+}
+
+/* All the site */
+body {
+  font-family: "courier-prime";
+  background: var(--black);
+  color: var(--white);
+
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  box-sizing: border-box;
+}
+
+.fake-error {
+  background: var(--white);
+  padding: 0;
+  margin: 0;
+  margin-bottom: 50px;
+}
+
+.fake-error-content {
+  align-self: flex-start;
+  margin: 5rem 0 0 5rem;
+}
+
+.fake-error-content h1 {
+  color: var(--black);
+  font-weight: 700;
+  font-size: 4.5rem;
+  font-family: Arial, sans-serif;
+
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.fake-error-content p {
+  color: #7d7d7d;
+  font-family: Arial, sans-serif;
+
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+nav .title-section {
+  text-align: center;
+}
+
+nav h2 {
+  margin: 0;
+  font-size: 40px;
+}
+
+nav h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+nav img {
+  filter: invert(1);
+}
+
+nav .img-container {
+  width: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  align-content: center;
+
+  transition: 0.3s;
+}
+
+nav .img-container:hover {
+  transform: translateY(-2px);
+}
+
+nav .federation-logo {
+  width: 120px;
+}
+
+nav .quackity-studios-logo {
+  width: 75px;
+}
+
+/* countdown */
+.countdown-div {
+  text-align: center;
+  font-size: 40px;
+
+  margin-bottom: 25px;
+  color: var(--countdown-red);
+
+  font-family: "Martian Mono", monospace;
+  opacity: 0;
+}
+
+.countdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+
+  background: var(--countdown-overlay-transparent-dark);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  transition: 0.2s;
+}
+
+.countdown-overlay .countdown-container {
+  transition: 0.1s;
+  transform: rotate(-1deg);
+}
+
+.countdown-overlay .countdown-div-center {
+  color: var(--countdown-red);
+  font-size: 6vw;
+  font-family: "Martian Mono", monospace;
+
+  opacity: 0;
+}
+
+/* other page button */
+.main-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  margin-bottom: 50px;
+  gap: 20px;
+}
+
+.main-button {
+  color: var(--white);
+  font-size: 30px;
+  border: solid 2px var(--white);
+  text-decoration: none;
+
+  margin: 0;
+  padding: 2px 20px;
+}
+
+.main-button.active {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Main section */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  position: relative;
+}
+
+/* pdf section */
+main .pdf-document {
+  width: 950px;
+  height: 1200px;
+  background: var(--white);
+  border: solid 5px var(--white);
+
+  box-sizing: border-box;
+}
+
+/* Language selector */
+aside {
+  position: absolute;
+  left: 0;
+  top: 0px;
+  width: 200px;
+}
+
+aside .language-selectors {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  align-content: center;
+
+  gap: 20px;
+  width: 100%;
+}
+
+aside .language-selectors button {
+  font-size: 30px;
+  font-family: "courier-prime";
+  color: var(--unselected);
+
+  outline: none;
+  background: none;
+  border: none;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  display: inline-block;
+  padding-bottom: 2px;
+  background-image: linear-gradient(var(--white) 0 0);
+  background-position: right bottom;
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s;
+}
+
+aside .language-selectors button:hover {
+  background-size: 100% 2px;
+  color: var(--white);
+  transition: 0.3s;
+
+  animation: gentle-glitch-css 1s linear infinite;
+}
+
+aside .language-selectors .active {
+  color: var(--white);
+  transition: 0.3s;
+}
+
+/* 
+  CANDIDATES PAGE
+*/
+
+/* Candidate card section */
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  gap: 40px;
+  width: 950px;
+
+  font-family: "transcend";
+}
+
+.candidate {
+  width: 100%;
+  height: 230px;
+  padding: 30px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: center;
+
+  background: linear-gradient(
+    180deg,
+    var(--candidate-red) 0%,
+    var(--black) 100%
+  );
+}
+
+.candidate:nth-child(even) {
+  flex-direction: row-reverse;
+  background: linear-gradient(
+    180deg,
+    var(--candidate-blue) 0%,
+    var(--black) 100%
+  );
+}
+
+.candidate h3 {
+  flex-grow: 2;
+  text-align: center;
+  font-size: 45px;
+  letter-spacing: 3px;
+  margin-bottom: 0;
+  margin-top: 30px;
+}
+
+.candidate img {
+  width: 300px;
+  margin-top: -30px;
+  filter: grayscale(1);
+}
+
+.candidate img.geeg {
+  margin-top: -100px;
+}
+
+.candidate .twitter-icon {
+  color: var(--white);
+  font-size: 30px;
+}
+
+.countdown-blink {
+  animation: countdown-blink infinite 1.5s steps(1);
+}
+
+/* Code pages */
+.hidden-menu {
+  visibility: hidden;
+}
+
+.console-container {
+  width: 950px;
+}
+
+.console-container h2 {
+  font-size: 30px;
+  font-weight: normal;
+  border-bottom: solid 5px white;
+  display: inline-block;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.console-container .redacted {
+  color: var(--unselected);
+}
+
+.code-margin-text {
+  margin-left: 60px;
+}
+
+.filler {
+  visibility: hidden;
+  margin-top: -20px;
+}
+
+.cursor {
+  border-right: 2px solid white;
+  width: 0px;
+  height: 1em;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.cursor.blink {
+  animation: blink 1s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* EFFECTS */
+/* countdown blink */
+@keyframes countdown-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* gentle-glitch-css */
+@keyframes gentle-glitch-css {
+  2%,
+  64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(5deg);
+  }
+}
+
+.gentle-glitch-css:before,
+.gentle-glitch-css:after {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+}
+
+.gentle-glitch-css:before {
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop {
+  2%,
+  64% {
+    transform: translate(2px, -2px);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 2px);
+  }
+  62% {
+    transform: translate(13px, -1px) skew(-13deg);
+  }
+}
+
+.gentle-glitch-css:after {
+  animation: glitchBotom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom {
+  2%,
+  64% {
+    transform: translate(-2px, 0);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0);
+  }
+  62% {
+    transform: translate(-22px, 5px) skew(21deg);
+  }
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 1450px) {
+  aside {
+    position: unset;
+
+    left: unset;
+    top: unset;
+    max-width: unset;
+
+    margin-bottom: 20px;
+    width: auto;
+  }
+
+  aside .language-selectors {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+    width: 100%;
+  }
+
+  aside .language-selectors button {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  main .pdf-document {
+    width: 100%;
+  }
+
+  .console-container {
+    width: 100%;
+  }
+
+  nav h2 {
+    font-size: 30px;
+  }
+
+  nav .img-container {
+    width: 100px;
+  }
+
+  nav .federation-logo {
+    width: 100px;
+  }
+
+  nav .quackity-studios-logo {
+    width: 60px;
+  }
+
+  aside .language-selectors button {
+    font-size: 20px;
+    background-image: none;
+  }
+
+  .countdown-div {
+    font-size: 30px;
+    margin-top: 10px;
+  }
+
+  .candidate-list {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .main .pdf-document,
+  main > div {
+    width: 100%;
+  }
+
+  .main-button {
+    font-size: 20px;
+  }
+
+  .candidate {
+    height: 150px;
+  }
+
+  .candidate h3 {
+    font-size: 30px;
+    margin-top: 10px;
+  }
+
+  .candidate img {
+    width: 150px;
+    margin-top: 0;
+  }
+
+  .candidate img.geeg {
+    margin-top: -30px;
+  }
+
+  .candidate .twitter-icon {
+    font-size: 20px;
+  }
+
+  .main-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  nav h2 {
+    font-size: 25px;
+  }
+
+  nav .img-container {
+    width: 80px;
+  }
+
+  nav .federation-logo {
+    width: 80px;
+  }
+
+  nav .quackity-studios-logo {
+    width: 60px;
+  }
+
+  aside .language-selectors button {
+    font-size: 15px;
+  }
+
+  .fake-error {
+    margin: 0;
+  }
+  
+  .fake-error-content {
+    margin: 3rem 0 0 3rem;
+    width: auto;
+  }
+  
+  .fake-error-content h1 {
+    font-size: 3.5rem;
+  }
+  
+  .fake-error-content p {
+    font-size: 1.25em;
+  }
+
+  .fake-error .console-container {
+    margin: 0 15px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .candidate h3 {
+    font-size: 20px;
+    margin-top: 0px;
+  }
+
+  .candidate {
+    height: 100px;
+    padding: 30px 15px;
+  }
+
+  .candidate img {
+    width: 75px;
+    margin-top: 10px;
+  }
+
+  .candidate img.geeg {
+    margin-top: -10px;
+  }
+
+  .candidate .twitter-icon {
+    font-size: 18px;
+  }
+
+  .console-container h2 {
+    border-bottom: solid 3px white;
+    font-size: 25px;
+  }
+
+  .console-container p, .console-container .span {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  nav {
+    flex-direction: column;
+  }
+
+  aside .language-selectors {
+    justify-content: center;
+  }
+
+  .main-buttons {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .rejected-nav .title-section {
+    display: none;
+  }
+}

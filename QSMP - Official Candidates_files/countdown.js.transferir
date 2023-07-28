@@ -1,0 +1,196 @@
+// Declaration of glitch effect in img and text
+const glitchObj = ({ startGlitch, stopGlitch } = PowerGlitch.glitch(
+  ".countdown-div-center",
+  {
+    playMode: "always",
+    createContainers: true,
+    hideOverflow: false,
+    timing: {
+      duration: 200,
+      iterations: 1,
+    },
+    glitchTimeSpan: {
+      start: 0,
+      end: 1,
+    },
+    shake: {
+      velocity: 15,
+      amplitudeX: 0.2,
+      amplitudeY: 0.2,
+    },
+    slice: {
+      count: 10,
+      velocity: 40,
+      minHeight: 0.02,
+      maxHeight: 0.15,
+      hueRotate: false,
+    },
+    pulse: false,
+  }
+));
+
+const glitchCountdownMain = ({ startGlitch, stopGlitch } = PowerGlitch.glitch(
+  ".countdown-div",
+  {
+    playMode: "always",
+    createContainers: true,
+    hideOverflow: true,
+    timing: {
+      duration: 200,
+      iterations: 1,
+    },
+    glitchTimeSpan: {
+      start: 0,
+      end: 1,
+    },
+    shake: {
+      velocity: 15,
+      amplitudeX: 0.2,
+      amplitudeY: 0.2,
+    },
+    slice: {
+      count: 20,
+      velocity: 440,
+      minHeight: 0.02,
+      maxHeight: 0.15,
+      hueRotate: false,
+    },
+    pulse: false,
+  }
+));
+
+glitchObj.stopGlitch();
+glitchCountdownMain.stopGlitch();
+
+// Set the start date to now
+const startDate = new Date();
+
+// Set the end date to Tuesday, July 11, 2023, at 12:00
+// 1689112800000
+const endDate = new Date(1689112800000);
+
+let countdownFinished = startDate > endDate;
+console.log(countdownFinished);
+
+let countdown1hExpired = (startDate - endDate) / (1000 * 60 * 60) > 1;
+console.log(countdown1hExpired);
+
+let intervalId;
+
+// Get the div where to display the countdown
+const countdownMainContainer = document.querySelector(
+  ".countdown-main-container"
+);
+const countdownDiv = document.querySelector(".countdown-div");
+const countdownDivCenter = document.querySelector(".countdown-div-center");
+
+// Function to format numbers to two digits for minutes and seconds
+const formatNum = (num) => {
+  return ("0" + num).slice(-2);
+};
+
+// Function to update the countdown
+const updateCountdown = () => {
+  const now = new Date();
+  let secondsLeft = Math.floor((endDate - now) / 1000);
+
+  if (secondsLeft <= 0 && !countdownFinished) {
+    countdownFinished = true;
+
+    countdownDiv.innerText = "00:00:00";
+    countdownDivCenter.innerText = "00:00:00";
+
+    countdown.style.opacity = 1;
+    countdown.style.transition = "0.3s";
+    countdownMainContainer.classList.add("countdown-blink");
+    countdown.style.color = "#5c5c5c";
+
+    clearInterval(intervalId);
+
+    return;
+  }
+
+  let hours = Math.floor(secondsLeft / 3600);
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+
+  secondsLeft %= 3600;
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
+
+  countdownDiv.innerText = `${hours}:${formatNum(minutes)}:${formatNum(
+    seconds
+  )}`;
+  countdownDivCenter.innerText = `${hours}:${formatNum(minutes)}:${formatNum(
+    seconds
+  )}`;
+};
+
+/* Countdown big animation section */
+const countdownOverlay = document.querySelector(".countdown-overlay");
+const countdownContainer = countdownOverlay.querySelector(
+  ".countdown-container"
+);
+const countdownOverlayText = countdownOverlay.querySelector(
+  ".countdown-div-center"
+);
+
+const countdown = document.querySelector(".countdown-div");
+
+/* gnocchi */
+if (!countdownFinished) {
+  // Call the function immediately to initialize the display
+  updateCountdown();
+
+  // Then start the interval to update every second
+  intervalId = setInterval(updateCountdown, 1000);
+
+  if (notOnFirstPage) {
+    countdownContainer.style.transition = "0s";
+    countdownOverlay.style.opacity = 0;
+    countdownOverlay.style.zIndex = -1;
+
+    countdown.style.opacity = 1;
+  } else {
+    const body = document.querySelector("body");
+    body.style.overflow = "hidden";
+
+    setTimeout(() => {
+      countdownOverlayText.style.opacity = 1;
+      countdownContainer.style.transform = "scale(1.5)";
+      glitchObj.startGlitch();
+
+      setTimeout(() => {
+        glitchObj.stopGlitch();
+      }, 300);
+
+      setTimeout(() => {
+        body.style.overflow = "visible";
+        glitchObj.startGlitch();
+
+        countdownContainer.style.transition = "0.3s";
+        countdownContainer.style.transform = "scale(1.3) rotate(1deg)";
+
+        countdownOverlay.style.opacity = 0;
+        countdownOverlay.style.zIndex = -1;
+
+        setTimeout(() => {
+          countdown.style.opacity = 1;
+          glitchCountdownMain.startGlitch();
+        }, 400);
+      }, 1500);
+    }, 300);
+  }
+} else {
+  countdownContainer.style.transition = "0s";
+  countdownOverlay.style.opacity = 0;
+  countdownOverlay.style.zIndex = -1;
+
+  if (!countdown1hExpired) {
+    countdown.style.opacity = 1;
+    countdown.style.color = "#5c5c5c";
+    countdownMainContainer.classList.add("countdown-blink");
+  }
+}
