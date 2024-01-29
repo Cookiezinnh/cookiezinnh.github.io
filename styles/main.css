@@ -11,7 +11,7 @@
 
 .navbar{
     background: #111111;
-    min-height: 7vh;
+    min-height: 6vh;
     width: 100%;
     color: #fff;
     position: relative;
@@ -55,10 +55,9 @@
     outline: 0;
 }
 
- /* Banner Setup */ 
+ /* Hero Setup */ 
 
 .hero-container{
-    /* background: #252423; */
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
     min-height: 80vh;
@@ -107,7 +106,6 @@
 .content-part{
     background: #202020;
     width: 100%;
-    min-height: 50vh;
     margin: auto;
 
     color: #fff;
@@ -117,18 +115,16 @@
     max-width: 80%;
     min-height: 50vh;
 
-    margin-top: 40px;
-    margin-bottom: 40px;
-    margin-left: 10%;
+    margin-block: 40px;
+    margin-inline: 10%;
 
-    position: relative;
     overflow: hidden;
+    display: flex;
 }
 
 .aboutus-text{
-    max-width: 50%;
-    min-height: 50vh;
-
+    min-width: 60%;
+    padding: 5px;
 }
 
 .aboutus-text h1{
@@ -140,25 +136,28 @@
 .aboutus-text h4{
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 2vh;
+    font-size: 2.25vh;
     padding-top: 10px;
     color: #d3c8c8;
 }
 
-.aboutus-img{
-    position: absolute;
+.aboutus-image-container{
+    min-width: 40%;
+    min-height: 50vh;  
+}
+
+.aboutus-image-container img{
+    position: relative;
     top: 50%;
-    left: 75%;
-    width: 500px;
-    
+    left: 50%;
     transform: translate(-50%, -50%);
+    width: 90%;
+    height: auto;
 }
 
 .findwhere-text{
-    max-width: 50%;
-    min-height: 50vh;
-    margin-left: 50%;
-
+    min-width: 60%;
+    padding: 5px;
 }
 
 .findwhere-text h1{
@@ -170,18 +169,23 @@
 .findwhere-text h4{
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 2vh;
+    font-size: 2.25vh;
     padding-top: 10px;
     color: #d3c8c8;
 }
 
-.findwhere-img{
-    position: absolute;
-    top: 50%;
-    left: 25%;
-    width: 500px;
+.findwhere-image-container{
+    min-width: 40%;
+    min-height: 50vh;  
+}
 
+.findwhere-image-container img{
+    position: relative;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
+    width: 90%;
+    height: auto;
 }
 
 /* Footer Setup */
@@ -230,7 +234,8 @@
     font-size: 20px;
 }
 
-.logo{
+.f_col .logo{
+    width: 250px;
     cursor: pointer;
 }
 
@@ -238,3 +243,130 @@
     background-color: #1a1818;
     padding: 25px 0;
 }
+
+/* Responsive Website setup */
+
+/* Laptop */
+@media (max-width: 1024px) {
+    /* Content */
+    
+    .aboutus-image-container{
+        display: none;
+    }
+    
+    .findwhere-image-container{
+        display: none;
+    }
+
+    /* Footer */
+    .f_col .logo{
+        width: 200px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    /* Navbar */
+    .navbar button{
+        display: none;
+    }
+    .navbar nav ul li{
+        margin: 0 10px;
+    }
+    
+    /* Hero */
+    .hero-container h1{
+        font-size: 110px;
+    }
+
+    /* Content */
+    
+    .aboutus-image-container{
+        display: none;
+    }
+    
+    .findwhere-image-container{
+        display: none;
+    }
+
+    /* Footer */
+    .f_col .logo{
+        width: 160px;
+    }
+}
+
+/* Celular */
+@media (max-width: 505px) {
+    /* Navbar */
+    
+    .navbar nav{
+        padding: 20px 4%;
+    }
+    
+    .navbar nav .logo{
+        width: 145px;
+    }
+    
+    .navbar nav ul li{
+        margin: 0 7px;
+    }
+
+    /* Hero */
+
+    .hero-container{
+        min-height: 50vh;
+        padding-top: 10vh;
+    }
+    
+    .hero-container h1{
+        padding-bottom: 5vh;
+        font-size: 75px;
+    }
+    
+    .hero-container button{
+        font-size: 20px;
+        height: 50px;
+        width: 280px;
+    }
+
+    /* Content */
+    .content-container{
+        max-width: 100%;
+        margin-inline: 0%;
+    }
+    
+    .aboutus-text h1{
+        font-size: 6vh;
+    }
+    
+    .aboutus-text h4{
+        font-size: 2vh;
+    }
+    
+    .aboutus-image-container{
+        display: none;
+    }
+    
+    .findwhere-text h1{
+        font-size: 6vh;
+    }
+    
+    .findwhere-text h4{
+        font-size: 2vh;
+    }
+    
+    .findwhere-image-container{
+        display: none;
+    }
+
+    /* Footer */
+    .f_col{
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .f_col .logo{
+        width: 200px;
+    }
+}
+
