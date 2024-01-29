@@ -1,98 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<style type="text/css">
-  h1 {
-	  font-family: Arial, Helvetica, sans-serif;
-	  color: #F00;
-	  font-size: x-large;
-  }
-  p {
-	  font-family: Arial, Helvetica, sans-serif;
-	  color: #000;
-	  font-size: small;
-  }
-  body {
-	  background-color: #FFF;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-  }
-  #bloctxt {
-	  border-left-width: 5px;
-	  border-left-style: solid;
-	  border-left-color: #F00;
-	  padding-left: 10px;
-	  position: absolute;
-	  left: 50%%;
-	  width: 600px;
-	  margin-left: -260px
-  }
-</style>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-  <!-- Enables full-screen on iOS devices -->
-  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="HandheldFriendly" content="true" />
-
-  <title>Clickteam Fusion Developer 2.5+ HTML5 Runtime</title>
-
-	<script>
-	   	// Detection of old browsers that do not support the canvas element
-		// Falls back to a default page
-	    if (!document.createElement("canvas").getContext)
-	    {
-			window.open("http://www.clickteam.com/html5-fallback", "_self");
-		}
-	</script>
-
-
-  	<!-- EXTRASOURCES -->
-    <!-- Loads the Javascript code...-->
-    <script src="src/Runtime.js"></script>
-
-  <script>
-
-	// Detection of when the html file is ran locally.
-	// You can remove this code for the final version
-	if (window.location.protocol == "file:")
-	{
-		document.write('<div id="bloctxt">');
-		document.write('<h1>The application cannot be run...</h1>');
-		document.write('<p>HTML browsers do not allow you to launch data files directly from the file system.<br>');
-		document.write('A drag & drop of the html file on a web-browser window will not work, on any machine.<br>');
-		document.write('Please use the Build & Run option (it opens a local web server) to run your application,<br>')
-		document.write('or upload your application folder to a remote web-server, and start it from there...</p>');
-		document.write('</div>');
-		throw new error("Cannot run application");
-	}
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Snowyie Development</title>
 </head>
-
 <body>
+    <div class="navbar" id="top">
+        <nav>
+            <img src="png/Logo.png" class="logo">
+            <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="">Sobre</a></li>
+                <li><a href="">Games</a></li>
+                <li><a href="">Blog</a></li>
+            </ul>
+            <button>Download Launcher</button>
+        </nav>
+    </div>
 
-<div style="display: inline-block; -webkit-user-select: none; text-align: left;">
-    <canvas id="MMFCanvas" width="1280" height="720">
-    	Your browser does not support Canvas.
-    </canvas>
-</div>
+    <div class="hero-container">
+        <video class="video-bg" autoplay muted loop>
+            <source src="mp4/background.mp4" type="video/mp4">
+        </video>
+        <h1>SNOWYIE</h1>
+        <button>Veja nossos Jogos</button>
+    </div>
 
-<script>
-    // RUNTIMESTART
-    // This is where the HTML5 runtime is actually started
-    window.addEventListener("load", windowLoaded, false);
-    function windowLoaded()
-    {
-        // Calls the runtime
-        // First parameter : name of the canvas element
-        // Second parameter : path to the cch file. Images and sounds must lay beside this file
-        new Runtime("MMFCanvas", "resources/atatanbhkjghgjhjgfhjgftatat.cch");
-    }
-    // RUNTIMESTARTEND
-</script>
+    <div class="content-part">
+        <div class="content-container">
+            <div class="aboutus-text">
+                <h1>O QUE É A SNOWYIE?</h1>
+                <h4>Somos uma equipe independente composta por dois membros dedicados ao desenvolvimento de jogos.</h4>
+                <h4>Nosso propósito é proporcionar entretenimento e alegria por meio de nossos jogos simples.</h4>
+                <img class="aboutus-img" src="png/tv.png">
+            </div>
+        </div>
+        <div class="content-container">
+            <div class="findwhere-text">
+                <img class="findwhere-img" src="png/tv.png">
+                <h1>ONDE POSSO ENCONTRA-LA?</h1>
+                <h4>Operamos em diversas plataformas, incluindo YouTube, Twitter, Instagram, entre outras.</h4>
+                <h4>Nossos jogos estão disponíveis para acesso tanto na GameJolt quanto na reconhecida plataforma ROBLOX, proporcionando aos interessados uma variedade de opções para explorar e desfrutar de nossos jogos.</h4>
+            </div>
+        </div>
+    </div>
 
+    <footer class="footer">
+        <div class="f_container">
+            <div class="row">
+                <div class="f_col">
+                    <h4>Socials</h4>
+                    <ul>
+                        <li><a href="#">GameJolt</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Youtube</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="f_col">
+                    <h4>Stuff</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Games</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="f_col">
+                    <h4>Snowyie Launcher</h4>
+                    <ul>
+                        <li><a href="#">Info</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+                <div class="f_col">
+                    <img src="png/Logo.png" class="logo">
+                    <ul>
+                        <li><b><a href="#top"><h3>Voltar ao Topo</h3></a></b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

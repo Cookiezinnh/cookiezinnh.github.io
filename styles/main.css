@@ -1,0 +1,240 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    font-family: sans-serif;
+}
+
+ /* Navbar Setup */ 
+
+.navbar{
+    background: #111111;
+    min-height: 7vh;
+    width: 100%;
+    color: #fff;
+    position: relative;
+}
+
+.navbar nav{
+    display: flex;
+    align-items: center;
+    padding: 20px 8%;
+}
+
+.navbar nav .logo{
+    width: 160px;
+    cursor: pointer;
+}
+
+.navbar nav ul{
+    flex: 1;
+    text-align: center;
+}
+
+.navbar nav ul li{
+    display: inline-block;
+    list-style: none;
+    margin: 0 20px;
+}
+
+.navbar nav ul li a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.navbar button{
+    background: #d1363a;
+    cursor: pointer;
+    color: #fff;
+    height: 30px;
+    width: 160px;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+}
+
+ /* Banner Setup */ 
+
+.hero-container{
+    /* background: #252423; */
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    min-height: 80vh;
+    padding-top: 20vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container h1{
+    color: #fff;
+    text-align: center;
+    padding-top: 10vh;
+    padding-bottom: 2vh;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 150px;
+}
+
+.hero-container button{
+    background: #d1363a;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 25px;
+    height: 60px;
+    width: 320px;
+    border-radius: 40px;
+    border: 0;
+    outline: 0;
+}
+
+.video-bg{
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* Summary Setup */
+
+.content-part{
+    background: #202020;
+    width: 100%;
+    min-height: 50vh;
+    margin: auto;
+
+    color: #fff;
+}
+
+.content-container{
+    max-width: 80%;
+    min-height: 50vh;
+
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 10%;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.aboutus-text{
+    max-width: 50%;
+    min-height: 50vh;
+
+}
+
+.aboutus-text h1{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 9vh;
+}
+
+.aboutus-text h4{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 2vh;
+    padding-top: 10px;
+    color: #d3c8c8;
+}
+
+.aboutus-img{
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    width: 500px;
+    
+    transform: translate(-50%, -50%);
+}
+
+.findwhere-text{
+    max-width: 50%;
+    min-height: 50vh;
+    margin-left: 50%;
+
+}
+
+.findwhere-text h1{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 9vh;
+}
+
+.findwhere-text h4{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 2vh;
+    padding-top: 10px;
+    color: #d3c8c8;
+}
+
+.findwhere-img{
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    width: 500px;
+
+    transform: translate(-50%, -50%);
+}
+
+/* Footer Setup */
+.f_container{
+    max-width: 86%;
+    margin: auto;
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.f_col {
+    width: 25%;
+    padding:  0 15px;
+}
+
+.f_col h4{
+    font-size: 20px;
+    color: #fff;
+    text-transform: capitalize;
+    margin-bottom: 15px;
+}
+
+.f_col ul{
+    list-style: none;
+}
+
+.f_col ul li:not(:last-child){
+    margin-bottom: 7px;
+}
+
+.f_col ul li a{
+    text-transform: capitalize;
+    color: #403f3e;
+    text-decoration: none;
+}
+
+.f_col ul li a:hover{
+    text-transform: capitalize;
+    color: #fff;
+}
+
+.f_backtext{
+    font-size: 20px;
+}
+
+.logo{
+    cursor: pointer;
+}
+
+.footer{
+    background-color: #1a1818;
+    padding: 25px 0;
+}
