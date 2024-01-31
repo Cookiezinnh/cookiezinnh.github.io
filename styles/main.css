@@ -8,51 +8,47 @@
 }
 
  /* Navbar Setup */ 
+ 
+.navbar-container{
+    width: 100%;
+    min-height: 6vh;
+    padding-inline: 8%;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #1d1d1d;
+}
 
 .navbar{
-    background: #111111;
-    min-height: 6vh;
     width: 100%;
-    color: #fff;
-    position: relative;
-}
-
-.navbar nav{
     display: flex;
     align-items: center;
-    padding: 20px 8%;
 }
 
-.navbar nav .logo{
+.navbar .logo{
     width: 160px;
+    margin: 30px 0;
     cursor: pointer;
 }
 
-.navbar nav ul{
+.nav{
     flex: 1;
     text-align: center;
 }
 
-.navbar nav ul li{
-    display: inline-block;
+.nav ul li{
     list-style: none;
-    margin: 0 20px;
+    display: inline-block;
+    margin-right: 30px;
 }
 
-.navbar nav ul li a{
+.nav ul li a{
     text-decoration: none;
-    color: #fff;
+    color: #ffffff;
+    font-size: 20px;
 }
 
-.navbar button{
-    background: #d1363a;
-    cursor: pointer;
-    color: #fff;
-    height: 30px;
-    width: 160px;
-    border-radius: 20px;
-    border: 0;
-    outline: 0;
+.nav ul li a:hover{
+    color: #575757;
 }
 
  /* Hero Setup */ 
@@ -113,7 +109,7 @@
 
 .content-container{
     max-width: 80%;
-    min-height: 50vh;
+    min-height: 10vh;
 
     margin-block: 40px;
     margin-inline: 10%;
@@ -244,7 +240,7 @@
     padding: 25px 0;
 }
 
-/* Responsive Website setup */
+/* Reesponsive Website Setup */
 
 /* Laptop */
 @media (max-width: 1024px) {
@@ -264,51 +260,35 @@
     }
 }
 
-/* Tablet */
-@media (max-width: 768px) {
-    /* Navbar */
-    .navbar button{
-        display: none;
-    }
-    .navbar nav ul li{
-        margin: 0 10px;
-    }
+@media only screen and (max-width:768px){
+    /* NavBar */
     
-    /* Hero */
-    .hero-container h1{
-        font-size: 110px;
+    .nav ul{
+        width: 100%;
+        background-color: #1d1d1d;
+        position: absolute;
+        top: 65px;
+        right: 0;
+        z-index: 2;
     }
 
-    /* Content */
-    
-    .aboutus-image-container{
-        display: none;
-    }
-    
-    .findwhere-image-container{
-        display: none;
+    .nav ul li{
+        list-style: none;
+        display: flexbox;
+        margin-right: 0px;
+        align-items: center;
     }
 
-    /* Footer */
-    .f_col .logo{
+    .navbar .logo{
+        position: relative;
+        left: 50%;
+        transform: translate(-50%);
         width: 160px;
+        margin: 20px 0;
     }
-}
 
-/* Celular */
-@media (max-width: 505px) {
-    /* Navbar */
-    
-    .navbar nav{
-        padding: 20px 4%;
-    }
-    
-    .navbar nav .logo{
-        width: 135px;
-    }
-    
-    .navbar nav ul li{
-        margin: 0 7px;
+    .nav ul li:not(:last-child){
+        margin-right: 30px;
     }
 
     /* Hero */
@@ -369,4 +349,3 @@
         width: 200px;
     }
 }
-
