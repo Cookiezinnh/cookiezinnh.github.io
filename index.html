@@ -3,94 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/main.css">
+    <title>Document</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <title>Snowyie Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- CSS link -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="navbar-container" id="top">
-        <div class="navbar">
-            <img src="png/Logo.png" class="logo">
-            <div class="nav">
-                <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li><a href="">Games</a></li>
-                    <li><a href="">Blog</a></li>
-                </ul>
+    <nav class="">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="png/SnowyieSocy.png" alt="">
+                <h1>Snowyie</h1>
+            </div>
+
+            <div class="vertical-line"></div>
+
+            <ul class="navigation">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Projetos</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-right">
+            <div class="search">
+                <i class="search-icon fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search..." class="search-box">
+            </div>
+            <div class="menu">
+                <i class="h-icon fa-solid fa-bars"></i>
+                <i class="h-exit fa-solid fa-xmark"></i>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="hero-container">
+    <div class="hero">
         <video class="video-bg" autoplay muted loop>
-            <source src="mp4/background.mp4" type="video/mp4">
+            <source src="mp4/main.mp4" type="video/webm">
         </video>
         <h1>SNOWYIE</h1>
-        <button>Veja nossos Jogos</button>
     </div>
+    
+    <script>
+        let nav = document.querySelector('nav')
+        let menuToggle = document.querySelector('.menu')
 
-    <div class="content-part">
-        <div class="content-container">
-            <div class="aboutus-text">
-                <h1>O QUE É A SNOWYIE?</h1>
-                <h4>Somos uma equipe independente composta por dois membros dedicados ao desenvolvimento de jogos.</h4>
-                <h4>Nosso propósito é proporcionar entretenimento e alegria por meio de nossos jogos simples.</h4>
-            </div>
-            <div class="aboutus-image-container">
-                <img src="png/tv.png">
-            </div>
-        </div>
-        <div class="content-container">
-            <div class="findwhere-image-container">
-                <img src="png/lupe.png">
-            </div>
-            <div class="findwhere-text">
-                <h1>ONDE POSSO ENCONTRA-LA?</h1>
-                <h4>Operamos em diversas plataformas, incluindo YouTube, Twitter, Instagram, entre outras.</h4>
-                <h4>Nossos jogos estão disponíveis para acesso tanto na GameJolt quanto na reconhecida plataforma ROBLOX, proporcionando aos interessados uma variedade de opções para explorar e desfrutar de nossos jogos.</h4>
-            </div>
-        </div>
-    </div>
+        // Abrir/Fechar Menu Hamburger
+        menuToggle.onclick = function(){
+            nav.classList.toggle('open');
+        };
 
-    <footer class="footer">
-        <div class="f_container">
-            <div class="row">
-                <div class="f_col">
-                    <h4>Socials</h4>
-                    <ul>
-                        <li><a href="#">GameJolt</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Youtube</a></li>
-                        <li><a href="#">Instagram</a></li>
-                    </ul>
-                </div>
-                <div class="f_col">
-                    <h4>Stuff</h4>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Games</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="f_col">
-                    <h4>Snowyie Launcher</h4>
-                    <ul>
-                        <li><a href="#">Info</a></li>
-                        <li><a href="#">Download</a></li>
-                    </ul>
-                </div>
-                <div class="f_col">
-                    <img src="png/Logo.png" class="logo">
-                    <ul>
-                        <li><b><a href="#top"><h3>Voltar ao Topo</h3></a></b></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        // Transparencia da Navbar quando Scrollar pra baixo
+        window.addEventListener('scroll', () => {
+        if (window.scrollY >= 80) {
+            nav.classList.add('scrolled');
+        } else if (window.scrollY < 80) {
+            nav.classList.remove('scrolled');
+        }
+    });
+    </script>
 </body>
 </html>
