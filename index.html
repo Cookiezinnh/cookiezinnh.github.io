@@ -3,74 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Snowyie</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+    <!-- FontAwesome CDN " https://fontawesome.com/search?o=r&m=free&s=solid%2Cregular&f=classic "-->
+    <script src="https://kit.fontawesome.com/d87ef857ef.js" crossorigin="anonymous"></script>
+
+    <!-- Boxicons " https://boxicons.com/ " -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- JavaScript link -->
+    <script src="main.js"></script>
+
     <!-- CSS link -->
-    <link rel="stylesheet" href="css/style.css">
+        <!-- Arquivo Contendo Todos os Valores Definidos no :Root{} -->
+    <link rel="stylesheet" href="styles/root.css">
+
+        <!-- Arquivo Padrão Para Modificações Utilizando o CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+
+        <!-- Arquivo Contendo Todos os Valores para os Botões -->
+    <link rel="stylesheet" href="styles/buttons.css">
+
+        <!-- Arquivo Padrão Para Media Queries -->
+        <link rel="stylesheet" href="styles/media_queries.css">
+
+    <!-- Custom Fonts -->
+    <style>
+        @font-face{
+            src: url(fonts/Mark\ Pro.ttf);
+            font-family: MarkPro;
+        }
+        @font-face{
+            src: url(fonts/Mark\ Pro\ Medium.ttf);
+            font-family: MarkPro Medium;
+        }
+        @font-face{
+            src: url(fonts/Mark\ Pro\ Bold.ttf);
+            font-family: MarkPro Bold;
+        }
+        @font-face{
+            src: url(fonts/Mark\ Pro\ Heavy.ttf);
+            font-family: MarkPro Heavy;
+        }
+    </style>
+
 </head>
 <body>
-    <nav class="">
-        <div class="nav-left">
-            <div class="logo">
-                <img src="png/SnowyieSocy.png" alt="">
-                <h1>Snowyie</h1>
-            </div>
 
-            <div class="vertical-line"></div>
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Navbar                        -->
+    <!-- ----- x ----- x ----- x ----- -->
 
-            <ul class="navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Projetos</a></li>
-                <li><a href="#">Blog</a></li>
-            </ul>
-        </div>
+     <section class="navbar">
+        <div class="nav-container">
+            <nav class="main-nav">
+                <div class="nav-items-left">
+                    <div class="logo">
+                        <img src="png/icons/logo.png" alt="">
+                        <h1>Snowyie</h1>
+                    </div>
 
-        <div class="nav-right">
-            <div class="search">
-                <i class="search-icon fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search..." class="search-box">
-            </div>
-            <div class="menu">
-                <i class="h-icon fa-solid fa-bars"></i>
-                <i class="h-exit fa-solid fa-xmark"></i>
-            </div>
-        </div>
-    </nav>
-
-    <div class="hero">
-        <video class="video-bg" autoplay muted loop>
-            <source src="mp4/main.mp4" type="video/webm">
-        </video>
-        <h1>SNOWYIE</h1>
-    </div>
+                    <div class="vertical-line"></div>
     
-    <script>
-        let nav = document.querySelector('nav')
-        let menuToggle = document.querySelector('.menu')
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Projetos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Blog</a>
+                        </li>
+                    </ul>
+                </div>
 
-        // Abrir/Fechar Menu Hamburger
-        menuToggle.onclick = function(){
-            nav.classList.toggle('open');
-        };
+                <div class="nav-items-right">
+                    <div class="btn btn-small btn-search btn-search">
+                        <i class="search-icon fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search..." class="search-box">
+                    </div>
+                    <span class="mobile-toggle">
+                        <i class="fa-solid fa-bars btn-open"></i>
+                        <i class="fa-solid fa-xmark btn-close"></i>
+                    </span>
+                </div>
+            </nav>
+        </div>
+     </section>
 
-        // Transparencia da Navbar quando Scrollar pra baixo
-        window.addEventListener('scroll', () => {
-        if (window.scrollY >= 80) {
-            nav.classList.add('scrolled');
-        } else if (window.scrollY < 80) {
-            nav.classList.remove('scrolled');
-        }
-    });
-    </script>
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Main Hero                     -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero main-hero">
+        <div class="row container">
+            <div class="hero-content-wrap">
+                <h1 class="title primary-title">Welcome to the SNOWYIE Community.</h1>
+                <p class="hero-description">We are an indie games studio, here we transform dreams into games.</p>
+    
+                <div class="hero-btn-group">
+                    <a href="#" class="btn btn-large btn-light">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        See our Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="main-hero-imagebg">
+            <img src="png/hero/default.png" alt="">
+        </div>
+        <div class="main-hero-videobg">
+            <!-- O Vídeo Precisa Ser ao menos 1920px x 1080px  -->
+            <video src="mp4/hero/kka.mp4" autoplay muted loop></video>
+        </div>
+        <div class="downwards-arrow">
+            <i class="fa-solid fa-angles-down"></i>
+        </div>
+    </section>
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Info Hero #1                  -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero section-1">
+        <div class="row container">
+            <img src="png/hero/default.png" alt="" class="grid-image">
+            
+            <div class="text-group">
+                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
+                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            </div>
+        </div>
+    </section>   
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Info Hero #2                  -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero section-2">
+        <div class="row container">
+            <img src="png/hero/default.png" alt="" class="grid-image">
+            
+            <div class="text-group">
+                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
+                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            </div>
+        </div>
+    </section>   
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Info Hero #3                  -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero section-3">
+        <div class="row container">
+            <img src="png/hero/default.png" alt="" class="grid-image">
+            
+            <div class="text-group">
+                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
+                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            </div>
+        </div>
+    </section>   
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Info Hero #4                  -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero section-4">
+        <div class="row container">
+            <img src="png/hero/default.png" alt="" class="grid-image">
+            
+            <div class="text-group">
+                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
+                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            </div>
+        </div>
+    </section>   
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Footer                        -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="footer">
+        <div class="row container">
+            <div class="first-row">
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="png/icons/logo.png" alt="">
+                        <h1>Snowyie</h1>
+                    </div>
+                </div>
+
+                <div class="">
+                    <a href="#" class="btn btn-small btn-light btn-login">Voltar Ao Topo</a>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="row links-container">
+                <div class="footer-content">
+                    <h4>Navigation</h4>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Projetos</a></li>
+                    <li><a href="#">Blog</a></li>
+                </div>
+    
+                <div class="footer-content">
+                    <h4>Socials</h4>
+                    <li><a href="#">Youtube</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">GameJolt</a></li>
+                    <li><a href="#">Newgrounds</a></li>
+                </div>
+                
+                <div class="footer-content">
+                    <h4>Navigation</h4>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Projetos</a></li>
+                    <li><a href="#">Blog</a></li>
+                </div>
+    
+                <div class="footer-content">
+                    <h4>Socials</h4>
+                    <li><a href="#">Youtube</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">GameJolt</a></li>
+                    <li><a href="#">Newgrounds</a></li>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
