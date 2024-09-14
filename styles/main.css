@@ -15,6 +15,7 @@
  
 html{
     font-size:        62.5%;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -245,6 +246,51 @@ img {
 /* Hero Section 1                */
 /* ----- x ----- x ----- x ----- */
 
+.section-news .left-news-container  {
+    grid-column: span var(--main-grid-columns);
+}
+
+.section-news .right-news-container  {
+    grid-column: span var(--main-grid-columns);
+    display: grid;
+}
+
+.news-container {
+    position: relative;
+}
+
+.top-news-container{
+    grid-column: span var(--main-grid-columns);
+    margin-bottom: 2rem;
+}
+
+.news-background img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news-container .text-group {
+    background-color: rgba(var(--color-black-D), .8);
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 1rem;
+}
+
+.news-container .text-group h1{
+    font-size: var(--news-title-font-size);
+}
+
+
+.small-news-container .text-group h1{
+    font-size: var(--news-small-title-font-size);
+}
+
+/* ----- x ----- x ----- x ----- */
+/* Hero Section 1                */
+/* ----- x ----- x ----- x ----- */
+
 .section-1{
     background-color: rgba(var(--color-black-M), .2);
 }
@@ -267,6 +313,7 @@ img {
 }
 
 .section-4 .text-group{
+    margin-top: 2rem;
     grid-column: span var(--main-grid-columns);
 }
 
