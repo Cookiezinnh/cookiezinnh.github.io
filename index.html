@@ -11,21 +11,24 @@
     <!-- Boxicons " https://boxicons.com/ " -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
-    <!-- JavaScript link -->
-    <script src="main.js"></script>
-
     <!-- CSS link -->
-        <!-- Arquivo Contendo Todos os Valores Definidos no :Root{} -->
-    <link rel="stylesheet" href="styles/root.css">
 
-        <!-- Arquivo Padrão Para Modificações Utilizando o CSS -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- Arquivo Específico para Modificações na Atual Pagina -->
+    <link rel="stylesheet" href="styles/page_css/index.css">
 
-        <!-- Arquivo Contendo Todos os Valores para os Botões -->
-    <link rel="stylesheet" href="styles/buttons.css">
+    <!-- Arquivo Contendo Todos os Valores Definidos no :Root{} -->
+    <link rel="stylesheet" href="styles/default_css/root.css">
 
-        <!-- Arquivo Padrão Para Media Queries -->
-        <link rel="stylesheet" href="styles/media_queries.css">
+     <!-- Arquivo Default Contendo as Configurações Padrões de Todas as Páginas -->
+    <link rel="stylesheet" href="styles/default_css/default.css">
+    
+    <!-- Arquivo Contendo Todos os Valores para os Botões -->
+    <link rel="stylesheet" href="styles/default_css/buttons.css">
+
+    <!-- Arquivo Padrão Para Media Queries -->
+    <link rel="stylesheet" href="styles/default_css/media_queries.css">
+
+
 
     <!-- Custom Fonts -->
     <style>
@@ -59,8 +62,7 @@
             <nav class="main-nav">
                 <div class="nav-items-left">
                     <div class="logo">
-                        <img src="png/icons/logo.png" alt="">
-                        <h1>Snowyie</h1>
+                        <img src="images/logo/logo.svg" alt="">
                     </div>
 
                     <div class="vertical-line"></div>
@@ -102,31 +104,40 @@
      
     <section class="hero main-hero">
         <div class="row container">
+            <div class="bg-color"></div>
             <div class="hero-content-wrap">
                 <h1 class="title primary-title">Welcome to the SNOWYIE Community.</h1>
                 <p class="hero-description">We are an indie games studio, here we transform dreams into games.</p>
     
                 <div class="hero-btn-group">
-                    <a href="#" class="btn btn-large btn-light">
+                    <a href="#" class="btn btn-large btn-dark">
                         <i class="fa-solid fa-arrow-right"></i>
                         See our Projects
                     </a>
                 </div>
             </div>
         </div>
+
         <div class="main-hero-imagebg">
-            <img src="png/hero/main-hero-placeholder.png" alt="">
+            <img src="images/hero/main-hero-placeholder.png" alt="">
         </div>
-        <div class="main-hero-videobg">
-            <!-- O Vídeo Precisa Ser ao menos 1920px x 1080px  -->
-            <video src="mp4/hero/main.mp4" autoplay muted loop></video>
-        </div>
-        <div class="downwards-arrow">
-            <a href="#page-start">
-                <i class="fa-solid fa-angles-down"></i>
-            </a>
-        </div>
+
+        <div id="video" id="js-video" class="main-hero-videobg">
+        <!-- O vídeo precisa ser de 1920x1080 -->
+            <video src="videos/hero/main.mp4" autoplay muted loop id="main-hero-video"></video>
+        </div>        
+
+        <a class="downwards-arrow" href="#page-start">
+            <i class="fa-solid fa-angles-down"></i>
+        </a>
     </section>
+      
+    <section class="hero video-bg-blur">
+        <div class="row container">
+                <!-- padrão 10 / 6 -->
+            <canvas width="100" height="60" aria-hidden="true" class="canvas" id="js-canvas"></canvas>
+        </div>
+    </section>   
 
     <!-- ----- x ----- x ----- x ----- -->
     <!-- News Hero #1                  -->
@@ -138,6 +149,7 @@
             <div class="top-news-container">
                 <div class="text-group">
                     <h1 class="title secondary-title">News</h1>
+                    <a href="#" class="btn btn-small btn-light">Ver Mais</a>
                 </div>
             </div>
 
@@ -147,7 +159,7 @@
                         <h1 class="title secondary-title">Título 1 // Notícia 1</h1>
                     </div>
                     <div class="news-background">
-                        <img src="png/hero/news-placeholder.png" alt="" class="grid-image">
+                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
                     </div>
                 </div>
             </div>
@@ -158,7 +170,7 @@
                         <h1 class="title secondary-title">Título 2 // Notícia 2</h1>
                     </div>
                     <div class="news-background">
-                        <img src="png/hero/news-placeholder.png" alt="" class="grid-image">
+                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
                     </div>
                 </div>
     
@@ -167,7 +179,7 @@
                         <h1 class="title secondary-title">Título 3 // Notícia 3</h1>
                     </div>
                     <div class="news-background">
-                        <img src="png/hero/news-placeholder.png" alt="" class="grid-image">
+                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
                     </div>
                 </div>
 
@@ -181,7 +193,7 @@
      
     <section class="hero section-1">
         <div class="row container">
-            <img src="png/hero/hero-placeholder.png" alt="" class="grid-image">
+            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
             
             <div class="text-group">
                 <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
@@ -196,7 +208,7 @@
      
     <section class="hero section-2">
         <div class="row container">
-            <img src="png/hero/hero-placeholder.png" alt="" class="grid-image">
+            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
             
             <div class="text-group">
                 <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
@@ -211,7 +223,7 @@
      
     <section class="hero section-3">
         <div class="row container">
-            <img src="png/hero/hero-placeholder.png" alt="" class="grid-image">
+            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
             
             <div class="text-group">
                 <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
@@ -226,7 +238,7 @@
      
     <section class="hero section-4">
         <div class="row container">
-            <img src="png/hero/hero-placeholder.png" alt="" class="grid-image">
+            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
             
             <div class="text-group">
                 <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
@@ -244,13 +256,12 @@
             <div class="first-row">
                 <div class="logo-container">
                     <div class="logo">
-                        <img src="png/icons/logo.png" alt="">
-                        <h1>Snowyie</h1>
+                        <img src="images/logo/logo.svg" alt="">
                     </div>
                 </div>
 
                 <div class="">
-                    <a href="#" class="btn btn-small btn-light btn-login">Voltar Ao Topo</a>
+                    <a href="#" class="btn btn-small btn-light">Voltar Ao Topo</a>
                 </div>
             </div>
 
@@ -293,5 +304,8 @@
             </div>
         </div>
     </section>
+
+    <!-- JavaScript link -->
+    <script src="main.js"></script>
 </body>
 </html>
