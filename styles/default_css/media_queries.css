@@ -9,6 +9,10 @@
         display: none;
     }
 
+    .video-bg-blur{
+        display: none;
+    }
+
     .vertical-line{
         display: none;
     }
@@ -24,6 +28,11 @@
         --header-title-font-size:      5.4rem;
         --main-grid-columns:           8;
         --section-spacing:             5.6rem 2.4rem;
+    }
+
+        
+    .video-bg-blur{
+        display: none;
     }
 
     .vertical-line{
@@ -66,6 +75,10 @@
     :root{
         --main-grid-columns:           12;
         --section-spacing:             9.6rem 2.4rem;
+    }
+
+    .video-bg-blur{
+        display: block;
     }
 
     .vertical-line{
