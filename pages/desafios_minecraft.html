@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowyie</title>
+
+    <!-- FontAwesome CDN " https://fontawesome.com/search?o=r&m=free&s=solid%2Cregular&f=classic "-->
+    <script src="https://kit.fontawesome.com/d87ef857ef.js" crossorigin="anonymous"></script>
+
+    <!-- Boxicons " https://boxicons.com/ " -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- CSS link ////////////////////////////////// -->
+
+    <!-- Arquivo com os valores padrões Root:{} -->
+    <link rel="stylesheet" href="styles/default_css/main.css">
+
+    <!-- Arquivo Contendo a Navbar -->
+    <link rel="stylesheet" href="styles/default_css/navbar.css">
+
+    <!-- Arquivo Contendo ao footer -->
+    <link rel="stylesheet" href="styles/default_css/footer.css">
+
+    <!-- Arquivo Contendo Todos os Valores Definidos a página atul -->
+    <link rel="stylesheet" href="styles/page_css/index.css">
+
+    <!-- Custom Fonts -->
+    <style>
+        @font-face{
+            src: url(assets/fonts/Mark\ Pro.ttf);
+            font-family: MarkPro;
+        }
+        @font-face{
+            src: url(assets/fonts/Mark\ Pro\ Medium.ttf);
+            font-family: MarkPro Medium;
+        }
+        @font-face{
+            src: url(assets/fonts/Mark\ Pro\ Bold.ttf);
+            font-family: MarkPro Bold;
+        }
+        @font-face{
+            src: url(assets/fonts/Mark\ Pro\ Heavy.ttf);
+            font-family: MarkPro Heavy;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Navbar                        -->
+    <!-- ----- x ----- x ----- x ----- -->
+
+     <section class="navbar">
+        <div class="nav-container">
+            <nav class="main-nav">
+                <div class="nav-items">
+                    <div class="logo">
+                        <img src="assets/images/logo/png_logo.png" alt="">
+                    </div>
+
+                    <div class="vertical-line"></div>
+    
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Projetos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-items">
+                    <div class="btn btn-small m-text btn-search">
+                        <i class="search-icon fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search..." class="search-box">
+                    </div>
+                    <span class="mobile-toggle">
+                        <i class="fa-solid fa-bars btn-open"></i>
+                        <i class="fa-solid fa-xmark btn-close"></i>
+                    </span>
+                </div>
+            </nav>
+        </div>
+     </section>
+
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Main Hero                     -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero main-hero" id="page-start">
+        <div class="row container">
+            <div class="bg-color"></div>
+            <div class="hero-content-wrap">
+                <h1 class="b-title text-align-l">Welcome to the SNOWYIE Community.</h1>
+                <p class="hero-description">We are an indie games studio, here we transform dreams into games.</p>
+    
+                <div class="hero-btn-group">
+                    <a href="#" class="btn btn-large m-text btn-dark">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        See our Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-hero-imagebg">
+            <img src="assets/images/hero/main-hero-placeholder.png" alt="">
+        </div>
+
+        <div id="video" id="js-video" class="main-hero-videobg">
+        <!-- O vídeo precisa ser de 1920x1080 -->
+            <video src="assets/videos/hero/pootis.mp4" autoplay muted loop id="main-hero-video"></video>
+        </div>        
+
+        <a class="downwards-arrow" href="#news-start">
+            <i class="fa-solid fa-angles-down"></i>
+        </a>
+    </section>
+      
+    <section class="hero video-bg-blur">
+        <div class="row container">
+                <!-- padrão 10 / 6 -->
+            <canvas width="100" height="60" aria-hidden="true" class="canvas" id="js-canvas"></canvas>
+        </div>
+    </section>    
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Info Hero #1                  -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="hero section-2">
+        <div class="row container">
+            <img src="assets/images/hero/hero-placeholder.png" alt="" class="grid-image">
+            
+            <div class="text-align-c text-group">
+                <h1 class="m-title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
+                <p class="m-text hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            </div>
+        </div>
+    </section>    
+
+    <!-- ----- x ----- x ----- x ----- -->
+    <!-- Footer                        -->
+    <!-- ----- x ----- x ----- x ----- -->
+     
+    <section class="footer">
+        <div class="row container">
+            <div class="first-row">
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="assets/images/logo/png_logo.png" alt="">
+                    </div>
+                </div>
+
+                <div class="back-to-the-top">
+                    <a href="#page-start" class="btn btn-medium s-text btn-light">Voltar ao Topo</a>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="row links-container">
+                <div class="footer-content">
+                    <h4 class="ss-title">Navegação</h4>
+                    <li><a href="#" class="s-text">Home</a></li>
+                    <li><a href="#" class="s-text">Sobre</a></li>
+                    <li><a href="#" class="s-text">Projetos</a></li>
+                    <li><a href="#" class="s-text">Blog</a></li>
+                </div>
+    
+                <div class="footer-content">
+                    <h4 class="ss-title">Redes Sociais</h4>
+                    <li><a href="#" class="s-text">Youtube</a></li>
+                    <li><a href="#" class="s-text">Twitter</a></li>
+                    <li><a href="#" class="s-text">Discord</a></li>
+                    <li><a href="#" class="s-text">GameJolt</a></li>
+                    <li><a href="#" class="s-text">Newgrounds</a></li>
+                </div>
+
+                <div class="footer-content">
+                    <h4 class="ss-title">Tópicos Importantes</h4>
+                    <li><a href="#" class="s-text">Desafios Minecraft</a></li>
+                </div>
+                
+                <div class="footer-content">
+                    <h4 class="ss-title">Site feito por:</h4>
+                    <li><a href="#" class="s-text">Cookiezinnh</a></li>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript link -->
+    <script src="bg_glow_fx.js"></script>
+    <script src="navbar.js"></script>
+</body>
+</html>

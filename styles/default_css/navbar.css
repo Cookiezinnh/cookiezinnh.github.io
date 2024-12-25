@@ -1,0 +1,87 @@
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  NavBar
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+.navbar{
+    height:           8rem;
+    width:            100vw;
+    padding:          0 2.4rem;
+    background-color: rgba(var(--black-D), .25);
+    backdrop-filter:  blur(.5rem);
+    z-index:          2;
+    transition:       all 0.5s;
+    position:         fixed;
+    align-content:    center;
+
+}
+
+.navbar-scrolled{
+    background-color: rgba(var(--black-D), .8);
+    backdrop-filter:  blur(2.5rem);
+}
+
+.nav-container{
+    max-width:        var(--container-width);
+    margin:           0 auto;
+}
+
+.main-nav{
+    height:           100%;
+    display:          flex;
+    align-items:      center;
+    justify-content:  space-between;
+}
+
+.logo{
+    display: flex;
+    width: 15rem;
+}
+
+.vertical-line{
+    margin-left: 1rem;
+    width: 3px;
+    height: 40px;
+    border-radius: 25px;
+    background-color: rgba(var(--white-L), .4);
+}
+
+.nav-list{
+    display: flex;
+}
+
+.nav-link{
+    font-size: 1.6rem;
+    color: rgba(var(--white-L), 1);
+    margin: 0 1rem;
+    padding: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover{
+    color: rgba(var(--red-L), 1);
+    font-family: var(--main-font-medium);
+}
+
+.nav-items{
+    display:          flex;
+    align-items:      center;
+}
+
+.mobile-toggle{
+    font-size:        3.6rem;
+    color:            rgba(var(--color-white-L), 1);
+    display:          flex;
+    cursor:           pointer;
+}
+
+.btn-search{
+    margin: 0 1rem;
+}
+
+.btn-close{
+    display:          none;
+}
+
+.mobile-toggle{
+    display:          none;   
+}

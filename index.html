@@ -11,48 +11,22 @@
     <!-- Boxicons " https://boxicons.com/ " -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
-    <!-- CSS link -->
+    <!-- CSS link ////////////////////////////////// -->
 
-    <!-- Arquivo Específico para Modificações na Atual Pagina -->
+    <!-- Arquivo com os valores padrões Root:{} -->
+    <link rel="stylesheet" href="styles/default_css/main.css">
+
+    <!-- Arquivo Contendo a Navbar -->
+    <link rel="stylesheet" href="styles/default_css/navbar.css">
+
+    <!-- Arquivo Contendo ao footer -->
+    <link rel="stylesheet" href="styles/default_css/footer.css">
+
+    <!-- Arquivo Contendo Todos os Valores Definidos a página atul -->
     <link rel="stylesheet" href="styles/page_css/index.css">
-
-    <!-- Arquivo Contendo Todos os Valores Definidos no :Root{} -->
-    <link rel="stylesheet" href="styles/default_css/root.css">
-
-     <!-- Arquivo Default Contendo as Configurações Padrões de Todas as Páginas -->
-    <link rel="stylesheet" href="styles/default_css/default.css">
-    
-    <!-- Arquivo Contendo Todos os Valores para os Botões -->
-    <link rel="stylesheet" href="styles/default_css/buttons.css">
-
-    <!-- Arquivo Padrão Para Media Queries -->
-    <link rel="stylesheet" href="styles/default_css/media_queries.css">
-
-
-
-    <!-- Custom Fonts -->
-    <style>
-        @font-face{
-            src: url(fonts/Mark\ Pro.ttf);
-            font-family: MarkPro;
-        }
-        @font-face{
-            src: url(fonts/Mark\ Pro\ Medium.ttf);
-            font-family: MarkPro Medium;
-        }
-        @font-face{
-            src: url(fonts/Mark\ Pro\ Bold.ttf);
-            font-family: MarkPro Bold;
-        }
-        @font-face{
-            src: url(fonts/Mark\ Pro\ Heavy.ttf);
-            font-family: MarkPro Heavy;
-        }
-    </style>
-
 </head>
-<body>
 
+<body>
     <!-- ----- x ----- x ----- x ----- -->
     <!-- Navbar                        -->
     <!-- ----- x ----- x ----- x ----- -->
@@ -60,9 +34,9 @@
      <section class="navbar">
         <div class="nav-container">
             <nav class="main-nav">
-                <div class="nav-items-left">
+                <div class="nav-items">
                     <div class="logo">
-                        <img src="images/logo/png_logo.png" alt="">
+                        <img src="assets/images/logo/png_logo.png" alt="">
                     </div>
 
                     <div class="vertical-line"></div>
@@ -83,8 +57,8 @@
                     </ul>
                 </div>
 
-                <div class="nav-items-right">
-                    <div class="btn btn-small btn-search btn-search">
+                <div class="nav-items">
+                    <div class="btn btn-small m-text btn-search">
                         <i class="search-icon fa-solid fa-magnifying-glass"></i>
                         <input type="text" placeholder="Search..." class="search-box">
                     </div>
@@ -102,32 +76,36 @@
     <!-- Main Hero                     -->
     <!-- ----- x ----- x ----- x ----- -->
      
-    <section class="hero main-hero">
+    <section class="hero main-hero" id="page-start">
         <div class="row container">
             <div class="bg-color"></div>
             <div class="hero-content-wrap">
-                <h1 class="title primary-title">Welcome to the SNOWYIE Community.</h1>
-                <p class="hero-description">We are an indie games studio, here we transform dreams into games.</p>
+                <h1 class="b-title t-medium text-align-l">Sejam Bem-Vindos(as) a Comunidade Snowyie!</h1>
+                <p class="hero-description">
+                Somos um estúdio de desenvolvimentos de jogos indie, aqui transformamos sonhos em jogos.
+                <br><br>
+                Gerenciado por: Cookiezinnh & BlackKire
+                </p>
     
                 <div class="hero-btn-group">
-                    <a href="#" class="btn btn-large btn-dark">
+                    <a href="#content-start" class="btn btn-large m-text btn-light">
                         <i class="fa-solid fa-arrow-right"></i>
-                        See our Projects
+                        Veja os nossos projetos
                     </a>
                 </div>
             </div>
         </div>
 
         <div class="main-hero-imagebg">
-            <img src="images/hero/main-hero-placeholder.png" alt="">
+            <img src="assets/images/hero/main-hero-placeholder.png" alt="">
         </div>
 
         <div id="video" id="js-video" class="main-hero-videobg">
         <!-- O vídeo precisa ser de 1920x1080 -->
-            <video src="videos/hero/main.mp4" autoplay muted loop id="main-hero-video"></video>
+            <video src="assets/videos/hero/lava.mp4" autoplay muted loop id="main-hero-video"></video>
         </div>        
 
-        <a class="downwards-arrow" href="#page-start">
+        <a class="downwards-arrow" href="#content-start">
             <i class="fa-solid fa-angles-down"></i>
         </a>
     </section>
@@ -137,115 +115,39 @@
                 <!-- padrão 10 / 6 -->
             <canvas width="100" height="60" aria-hidden="true" class="canvas" id="js-canvas"></canvas>
         </div>
-    </section>   
-
-    <!-- ----- x ----- x ----- x ----- -->
-    <!-- News Hero #1                  -->
-    <!-- ----- x ----- x ----- x ----- -->
-     
-    <section class="hero section-news" id="page-start">
-        <div class="row container">
-
-            <div class="top-news-container">
-                <div class="text-group">
-                    <h1 class="title secondary-title">News</h1>
-                    <a href="#" class="btn btn-small btn-light">Ver Mais</a>
-                </div>
-            </div>
-
-            <div class="left-news-container">
-                <div class="news-container big-news-container">
-                    <div class="text-group">
-                        <h1 class="title secondary-title">Título 1 // Notícia 1</h1>
-                    </div>
-                    <div class="news-background">
-                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
-                    </div>
-                </div>
-            </div>
-
-            <div class="right-news-container">
-                <div class="news-container small-news-container">
-                    <div class="text-group">
-                        <h1 class="title secondary-title">Título 2 // Notícia 2</h1>
-                    </div>
-                    <div class="news-background">
-                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
-                    </div>
-                </div>
-    
-                <div class="news-container small-news-container">
-                    <div class="text-group">
-                        <h1 class="title secondary-title">Título 3 // Notícia 3</h1>
-                    </div>
-                    <div class="news-background">
-                        <img src="images/hero/news-placeholder.png" alt="" class="grid-image">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>   
+    </section>    
 
     <!-- ----- x ----- x ----- x ----- -->
     <!-- Info Hero #1                  -->
     <!-- ----- x ----- x ----- x ----- -->
      
-    <section class="hero section-1">
-        <div class="row container">
-            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
+    <section class="hero section-2"  id="content-start">
+        <div class="row container justify-items-c">
+            <img src="assets/images/desafios_minecraft/html_homescreen.png" alt="" class="grid-image">
             
-            <div class="text-group">
-                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
-                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            <div class="text-align-c text-group">
+                <h1 class="b-title t-minecraft-ten">Desafios Minecraft, Uma Grande História</h1>
+                <p class="b-text t-minecraft-seven hero-description">" Após uma longa jornada, tudo chega a um fim. "</p>
             </div>
-        </div>
-    </section>   
 
-    <!-- ----- x ----- x ----- x ----- -->
-    <!-- Info Hero #2                  -->
-    <!-- ----- x ----- x ----- x ----- -->
-     
-    <section class="hero section-2">
-        <div class="row container">
-            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
-            
-            <div class="text-group">
-                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
-                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            <div class="text-align-l text-group">
+                <p class="m-text hero-description">
+                    Para garantir que essa história continue viva e acessível, decidi disponibilizar todos os mapas utilizados durante as lives. Esses mapas são mais do que cenários, cada um deles contam a história dos desafios enfrentados, das estratégias criadas e das memórias compartilhadas. Cada bloco construído representa o esforço e a dedicação de todos que participaram.
+                    <br><br>
+                    Meu objetivo é que todos possam explorar esses mapas, reviver as emoções e, quem sabe, encontrar inspiração para criar novos desafios e continuar expandindo esse legado. Desafios Minecraft é uma história coletiva, e juntos podemos garantir que ela permaneça viva por muitos anos.
+                    <br><br>
+                    <h4>- @Cookiezinnh</h4>
+                    <br><br>
+                </p>
             </div>
-        </div>
-    </section>   
 
-    <!-- ----- x ----- x ----- x ----- -->
-    <!-- Info Hero #3                  -->
-    <!-- ----- x ----- x ----- x ----- -->
-     
-    <section class="hero section-3">
-        <div class="row container">
-            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
-            
-            <div class="text-group">
-                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
-                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
+            <div class="text-align-c text-group">
+                <a href="#" class="btn btn-large-wide m-text btn-light justify-content-c">
+                    Baixar os Mapas
+                </a>
             </div>
         </div>
-    </section>   
-
-    <!-- ----- x ----- x ----- x ----- -->
-    <!-- Info Hero #4                  -->
-    <!-- ----- x ----- x ----- x ----- -->
-     
-    <section class="hero section-4">
-        <div class="row container">
-            <img src="images/hero/hero-placeholder.png" alt="" class="grid-image">
-            
-            <div class="text-group">
-                <h1 class="title secondary-title">É hora de virar tudo de cabeça pra baixo.</h1>
-                <p class="hero-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo eaque nostrum amet accusantium laboriosam blanditiis quo ab, explicabo maiores, aut facilis reiciendis. Modi fugit, atque perferendis incidunt tempore quod. Aliquam!</p>
-            </div>
-        </div>
-    </section>   
+    </section>    
 
     <!-- ----- x ----- x ----- x ----- -->
     <!-- Footer                        -->
@@ -256,12 +158,12 @@
             <div class="first-row">
                 <div class="logo-container">
                     <div class="logo">
-                        <img src="images/logo/png_logo.png" alt="">
+                        <img src="assets/images/logo/png_logo.png" alt="">
                     </div>
                 </div>
 
-                <div class="">
-                    <a href="#" class="btn btn-small btn-light">Voltar Ao Topo</a>
+                <div class="back-to-the-top">
+                    <a href="#page-start" class="btn btn-medium s-text btn-light">Voltar ao Topo</a>
                 </div>
             </div>
 
@@ -269,43 +171,37 @@
 
             <div class="row links-container">
                 <div class="footer-content">
-                    <h4>Navigation</h4>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Sobre</a></li>
-                    <li><a href="#">Projetos</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <h4 class="ss-title t-medium">Navegação</h4>
+                    <li><a href="#" class="s-text">Home</a></li>
+                    <li><a href="#" class="s-text">Sobre</a></li>
+                    <li><a href="#" class="s-text">Projetos</a></li>
+                    <li><a href="#" class="s-text">Blog</a></li>
                 </div>
     
                 <div class="footer-content">
-                    <h4>Socials</h4>
-                    <li><a href="#">Youtube</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Discord</a></li>
-                    <li><a href="#">GameJolt</a></li>
-                    <li><a href="#">Newgrounds</a></li>
+                    <h4 class="ss-title t-medium">Redes Sociais</h4>
+                    <li><a href="#" class="s-text">Youtube</a></li>
+                    <li><a href="#" class="s-text">Twitter</a></li>
+                    <li><a href="#" class="s-text">Discord</a></li>
+                    <li><a href="#" class="s-text">GameJolt</a></li>
+                    <li><a href="#" class="s-text">Newgrounds</a></li>
+                </div>
+
+                <div class="footer-content">
+                    <h4 class="ss-title t-medium">Tópicos Importantes</h4>
+                    <li><a href="#" class="s-text">Desafios Minecraft</a></li>
                 </div>
                 
                 <div class="footer-content">
-                    <h4>Navigation</h4>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Sobre</a></li>
-                    <li><a href="#">Projetos</a></li>
-                    <li><a href="#">Blog</a></li>
-                </div>
-    
-                <div class="footer-content">
-                    <h4>Socials</h4>
-                    <li><a href="#">Youtube</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Discord</a></li>
-                    <li><a href="#">GameJolt</a></li>
-                    <li><a href="#">Newgrounds</a></li>
+                    <h4 class="ss-title t-medium">Site feito por:</h4>
+                    <li><a href="#" class="s-text">Cookiezinnh</a></li>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- JavaScript link -->
-    <script src="main.js"></script>
+    <script src="bg_glow_fx.js"></script>
+    <script src="navbar.js"></script>
 </body>
 </html>

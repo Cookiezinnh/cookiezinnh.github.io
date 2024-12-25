@@ -1,0 +1,59 @@
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Footer
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+.footer{
+    background-color: rgba(var(--black-L), .25);
+}
+
+.first-row{
+    grid-column: span var(--main-grid-columns);
+
+    display: flex;
+    align-items:      center;
+    justify-content:  space-between;
+}
+
+.divider{
+    grid-column:  1/-1;
+    height: 3px;
+    margin-block:  2.4rem;
+    background-color: rgba(var(--color-black-L), .2);
+}
+
+.links-container{
+    padding: 0 0;
+    grid-column: span var(--main-grid-columns);
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.footer-content{
+    padding-bottom: 0px;
+}
+
+.footer-content h4{
+    margin-bottom: 2rem;
+    font-family: var(--main-font-medium);
+    color: rgba(var(--white-L), .4); 
+}
+
+.footer-content li{
+    padding-block: 1rem;
+    transition: background-color 0.3s;
+}
+
+.footer-content li a{
+    color: rgba(var(--white-L), .9); 
+    transition: color 0.3s;
+}
+
+.footer-content li a:hover{
+    color: rgba(var(--red-L), 1);  
+}
+
+.divider{
+    grid-column:  1/-1;
+    height: 3px;
+    margin-block:  2.4rem;
+    background-color: rgba(var(--white-L), .25);
+}

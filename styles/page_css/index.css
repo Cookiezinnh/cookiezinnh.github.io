@@ -1,7 +1,87 @@
-    /* ----- x ----- x ----- x ----- */
-    /* Video BG Blur                 */
-    /* ----- x ----- x ----- x ----- */
-    
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Main Hero
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+.main-hero{
+    height:       calc(100vh - 120px);
+    padding-top:  8rem;
+    min-height:   600px;
+    max-height:   900px;
+    z-index:      1;
+
+    position:     relative;
+    display:      flex;
+    align-items:  center;
+    overflow:     hidden;
+}
+
+.main-hero-videobg{
+    position: absolute;
+    display: block;
+    top: 50%; left: 50%;
+    filter:blur(.5rem);
+    transform: translate(-50%,-50%);
+    min-width: 100%;
+    min-height: 100%;
+
+    z-index: -2;
+}
+
+.main-hero-imagebg {
+    position: absolute;
+    display: block;
+    z-index: -3;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter:blur(.5rem);
+    object-fit: cover;
+}
+
+.main-hero-imagebg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bg-color{
+    position: absolute;
+    top: 0%; left: 0%;
+    width: 100%; height: 100%;
+    z-index:      -1;
+    background-color: rgba(var(--black-L), .6);
+}
+
+.hero-content-wrap{
+    grid-column: span 3;
+}
+
+.hero-description{
+    color:        rgba(var(--white-L), 1);
+    line-height:  3.2rem;
+    margin-top:   2.4rem;
+}
+
+.hero-btn-group{
+    padding-top: 2rem;
+}
+.hero-btn-group a i{
+    margin-inline: .8rem;
+}
+
+.downwards-arrow{
+    position: absolute;
+    left: 50%; bottom: 20px;
+    transform: translateX(-50%);
+    padding: 1.5rem;
+}
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Main Hero - BG Video Blur
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
 .video-bg-blur{
     width: 100%;
     height: 105%;
@@ -22,91 +102,9 @@
     opacity: .4;
 }
 
-    /* ----- x ----- x ----- x ----- */
-    /* Main Hero Setup               */
-    /* ----- x ----- x ----- x ----- */
-    
-.bg-color{
-    position: absolute;
-    top: 0%; left: 0%;
-    width: 100%; height: 100%;
-    z-index:      -1;
-    background-color: rgba(var(--color-black-D), .6);
-}
- 
-.main-hero{
-    height:       calc(100vh - 120px);
-    padding-top:  8rem;
-    min-height:   600px;
-    max-height:   900px;
-    z-index:      1;
-
-    position:     relative;
-    display:      flex;
-    align-items:  center;
-    overflow:     hidden;
-}
-
-.main-hero-videobg{
-    position: absolute;
-    display: var(--main-hero-video-display);
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    min-width: 100%;
-    min-height: 100%;
-
-    filter:blur(2rem);
-    z-index: -2;
-}
-
-.main-hero-imagebg {
-    position: absolute;
-    display: var(--main-hero-image-display);
-    z-index: -3;
-
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.main-hero-imagebg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.hero-btn-group{
-    margin-top:   2.4rem;
-}
-
-.hero-btn-group i{
-    align-self:   center;
-    margin-right: 1rem;
-}
-
-.hero-description{
-    font-size:    var(--header-sub-title-font-size);
-    color:        rgba(var(--color-white-L), 1);
-    line-height:  3.2rem;
-    margin-top:   2.4rem;
-}
-
-.downwards-arrow{
-    position: absolute;
-    left: 50%; bottom: 20px;
-    transform: translateX(-50%);
-    padding: 1.5rem;
-}
-
-/* ----- x ----- x ----- x ----- */
-/* Hero Section News             */
-/* ----- x ----- x ----- x ----- */
-
-.news-container {
-    position: relative;
-}
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  News Hero
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
 
 .top-news-container{
     grid-column: span var(--main-grid-columns);
@@ -115,69 +113,124 @@
 
 .top-news-container .text-group{
     display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+    justify-content:  space-between;
+    margin-top: 0px;
 }
 
-.section-news .left-news-container  {
-    grid-column: span var(--main-grid-columns);
+.left-news-container{
+    grid-column: span 4;
 }
 
-.section-news .right-news-container  {
-    grid-column: span var(--main-grid-columns);
-    gap: 0px;
+
+.right-news-container{
+    grid-column: span 2;
     display: grid;
+    gap: 10px;
+}
+
+.news-container {
+    position: relative;
 }
 
 .news-background img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+
+    margin: 0; padding: 0;
 }
 
 .news-container .text-group {
-    background-color: rgba(var(--color-black-D), .8);
+    display: none;
+    background-color: rgba(var(--black-L), .8);
     position: absolute;
     width: 100%;
     bottom: 0;
     padding: 1rem;
 }
 
-.news-container .text-group h1{
-    font-size: var(--news-title-font-size);
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Reactivity
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+@media (max-width: 360px) {
+    .first-row{
+        display: block;
+        justify-content:start;
+    }
+
+    .first-row .logo{
+        padding-bottom: 10px;
+    }
+
+    .back-to-the-top .btn{
+        border-radius: 0px;
+        color: rgba(var(--white-L), 0.5);;
+        background-color: rgba(var(--purple-L), 0);
+    }
 }
 
-
-.small-news-container .text-group h1{
-    font-size: var(--news-small-title-font-size);
+@media (max-width: 450px) {
+    .links-container{
+        grid-column: span 2;
+    }
 }
 
-/* ----- x ----- x ----- x ----- */
-/* Hero Section 1                */
-/* ----- x ----- x ----- x ----- */
+@media (max-width: 768px) {
+    :root{
+        --main-grid-columns: 3;
+    }
 
-.section-1{
-    background-color: rgba(var(--color-black-M), .2);
+    /* Navbar */
+    .btn-search{
+        display: none;
+    }
+
+    .vertical-line{
+        display: none;
+    }
+
+    .nav-list{
+        display: none;
+    }
+
+    .mobile-toggle{
+        display: block;
+    }
+
+    /* Main Hero */
+    .hero-content-wrap{
+        grid-column: span 3;
+    }
+
+    .video-bg-blur{
+        display: none;
+    } 
+
+    /* News Hero */    
+    .left-news-container{
+        grid-column: span 3;
+        margin-bottom: 20px;;
+    }
+      
+    .right-news-container{
+        grid-column: span 3;
+        gap: 20px;
+    }
+    
+    .news-container .text-group {     /*Tenho que fazer ainda*/
+        display: none;
+        background-color: rgba(var(--black-L), .8);
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        padding: 1rem;
+    }
+
+    .footer-content{
+        padding-bottom: 20px;
+    }
 }
 
-/* ----- x ----- x ----- x ----- */
-/* Hero Section 3                */
-/* ----- x ----- x ----- x ----- */
-
-.section-3{
-    background-color: rgba(var(--color-black-M), .2);
-}
-
-/* ----- x ----- x ----- x ----- */
-/* Hero Section 4                */
-/* ----- x ----- x ----- x ----- */
-
-.section-4 .grid-image{
-    grid-column: span var(--main-grid-columns);
-    width: 100%;
-}
-
-.section-4 .text-group{
-    margin-top: 2rem;
-    grid-column: span var(--main-grid-columns);
+@media (min-width: 1024px) {
+    
 }

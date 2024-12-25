@@ -1,0 +1,292 @@
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Custom Fonts
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+/* Minecraft Fonts */
+@font-face {
+    font-family: "Minecraft Ten";
+    src: url('../../assets/fonts/Minecraft\ Ten.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Minecraft Seven";
+    src: url('../../assets/fonts/Minecraft\ Seven.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Minecraft Five";
+    src: url('../../assets/fonts/Minecraft\ Five.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Minecraft Five Bold";
+    src: url('../../assets/fonts/Minecraft\ Five\ Bold.ttf') format('truetype');
+}
+
+/* Website Main Fonts */
+@font-face{
+    font-family: "MarkPro";
+    src: url(../../assets/fonts/Mark\ Pro.ttf) format('truetype');
+}
+@font-face{
+    font-family: "MarkPro Medium";
+    src: url(../../assets/fonts/Mark\ Pro\ Medium.ttf) format('truetype');
+}
+@font-face{
+    font-family: "MarkPro Bold";
+    src: url(../../assets/fonts/Mark\ Pro\ Bold.ttf) format('truetype');
+}
+@font-face{
+    font-family: "MarkPro Heavy";
+    src: url(../../assets/fonts/Mark\ Pro\ Heavy.ttf) format('truetype');
+}
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Root Values
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+:root {
+    /* Light Color */
+    --white-L:  244, 244, 244;
+    --red-L:    228, 47, 69;
+    --orange-L: 253, 157, 72;
+    --yellow-L: 234, 236, 73;
+    --green-L:  117, 243, 163;
+    --blue-L:   123, 211, 234;
+    --purple-L: 203, 157, 240;
+    --black-L:  27, 27, 27;
+
+    /* Medium Color */
+    --white-M:  234, 234, 234;
+    --black-M:  17, 17, 17;
+
+    /* Dark Color */
+    --white-D:  224, 224, 224;
+    --black-D:  10, 10, 10;
+
+    /* Font Size */
+    --b-title: 6rem;
+    --m-title: 4.2rem;
+    --s-title: 3.5rem;
+    --ss-title: 3.0rem;
+
+    --b-text: 2.25rem;
+    --m-text: 2rem;
+    --s-text: 1.75rem;
+    --ss-text: 1.25rem;
+    
+    /* Fonts */
+    --main-font:           'MarkPro';
+    --main-font-medium:    'MarkPro Medium';
+    --main-font-bold:      'MarkPro Bold';
+    --main-font-heavy:     'MarkPro Medium';
+    --minecraft-ten:       'Minecraft Ten';
+    --minecraft-seven:     'Minecraft Seven';
+    --minecraft-five:      'Minecraft Five';
+    --minecraft-five-bold: 'Minecraft Five Bold';
+
+    /* Variaveis */
+    --main-grid-columns:           6;
+    --container-width:             160rem;
+    --section-spacing:             5.6rem 2.4rem;
+}
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Default Values
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+*{
+    margin:     0;
+    padding:    0;
+    box-sizing: border-box;
+    font-weight: normal;
+
+    text-decoration:  none;
+    list-style: none;
+
+    /*outline: 1px solid red; /* Função Utilizada apenas para Debugging do Site */
+}
+
+html{
+    font-size:        62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size:        var(--m-text);
+    font-family:      var(--main-font);
+
+    color:            rgba(var(--white-L), 1);
+    background-color: rgba(var(--black-M), 1);
+}
+
+a{
+    color:            rgba(var(--color-white-D), 1);  
+}
+
+
+img {
+    max-width:        100%;
+    display:          block;
+}
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Predefined Values
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+    /* Titulos                   */
+    /* Muda o Tamanho de Títulos */
+.b-title{ font-size:var(--b-title); line-height: 100%; }
+.m-title{ font-size:var(--m-title); line-height: 100%; }
+.s-title{ font-size:var(--s-title); line-height: 100%; }
+.ss-title{ font-size:var(--ss-title); line-height: 100%; }
+
+    /* Textos                   */
+    /* Muda o Tamanho de Textos */
+.b-text{ font-size:var(--b-text); }
+.m-text{ font-size:var(--m-text); }
+.s-text{ font-size:var(--s-text); }
+.ss-text{ font-size:var(--ss-text); }
+
+    /* Formatação ( "--main-font" é o padrão ) */ 
+    /* Muda o Tipo da Fonte                    */
+.t-medium              { font-family:var(--main-font-medium); }
+.t-bold                { font-family:var(--main-font-bold); }
+.t-heavy               { font-family:var(--main-font-heavy); }
+.t-minecraft-ten       { font-family:var(--minecraft-ten); } 
+.t-minecraft-seven     { font-family:var(--minecraft-seven); }
+.t-minecraft-five      { font-family:var(--minecraft-five); }
+.t-minecraft-five-bold { font-family:var(--minecraft-five-bold); }
+
+    /* Alinhamento de Texto */
+.text-align-l{ text-align: left; }
+.text-align-c{ text-align: center; }
+.text-align-r{ text-align: right; }
+
+    /* Alinhamento de Itens */
+.justify-items-l{ justify-items: left; }
+.justify-items-c{ justify-items: center; }
+.justify-items-r{ justify-items: right; }
+
+    /* Alinhamento de Conteúdos */
+.justify-content-l{ justify-content: left; }
+.justify-content-c{ justify-content: center; }
+.justify-content-r{ justify-content: right; }
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Predefined Buttons
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+    /* Botão Principal */
+.btn{
+    border-radius: 28px;
+    background-color: rgba(var(--purple-L), .8);
+
+    align-content: center;
+    align-items: center;
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+    /* Tamanho dos Botões */
+.btn-small{
+    padding: 7px;
+}
+
+.btn-medium{
+    padding: 10.5px;
+}
+
+.btn-large{
+    padding: 14px;
+}
+
+.btn-large-wide{
+    padding: 14px 100px;
+}
+
+    /* Cores dos Botões */
+.btn-dark{
+    background-color: rgba(var(--black-L), .8);
+    color: rgba(var(--white-L), 1);
+    transition: background 0.25s;
+}
+
+.btn-dark:hover{
+    background-color: rgba(var(--white-L), .8);
+    color: rgba(var(--black-L), 1);
+}
+
+.btn-light{
+    background-color: rgba(var(--white-L), .8);
+    color: rgba(var(--black-L), 1);
+    transition: background 0.25s;
+}
+
+.btn-light:hover{
+    background-color: rgba(var(--black-L), .8);
+    color: rgba(var(--white-L), 1);
+}
+
+    /* Botão de Pesquisa */
+.btn-search {
+    background-color: rgba(var(--white-L), .4);
+    transition: background 0.25s;
+}
+
+.btn-search:focus-within{
+    background-color: rgba(var(--white-L), .8);
+}
+
+.btn-search .search-box{
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+nav .search-icon{
+    color: rgba(var(--color-black-L), 1);
+    margin-inline: .8rem;
+}
+
+.btn-search .search-box::placeholder{
+    font-family: var(--main-font-medium);
+    color: rgba(var(--black-L), 1);
+}
+
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Basic Setup
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+.container{
+    max-width:   var(--container-width);
+    margin:      0 auto;
+}
+
+.row{
+    display:     grid;
+    gap:         0 2rem;
+    padding:     var(--section-spacing);
+    grid-template-columns: repeat(var(--main-grid-columns), 1fr);
+}
+
+.hero-content-wrap{
+    grid-column: span var(--main-grid-columns);
+}
+
+.grid-image{
+    margin-top:  2.4rem;
+    grid-column: span var(--main-grid-columns);
+}
+
+.text-group{
+    margin-top:  2rem;
+    grid-column: span var(--main-grid-columns);
+}
+
+.text-group p{
+    margin-top: 2rem;
+    line-height: 3.2rem;
+}
+
+.remove-grid{
+    display:     block;
+}
