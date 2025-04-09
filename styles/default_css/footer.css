@@ -1,0 +1,57 @@
+/*--x-- --x-- ~~ △ ~~ --x-- --x--
+//  Footer
+--x-- --x-- ~~ ▽ ~~ --x-- --x--*/
+
+.footer {
+    background-color: rgba(var(--black-L), .25);
+}
+
+.footer .row {
+    display: grid;
+    grid-template-columns: repeat(var(--main-grid-columns), 1fr);
+}
+
+.footer-content {
+    grid-column: span 1; /* Cada conteúdo ocupa 1 coluna */
+    padding-bottom: 0px;
+}
+
+.footer-content h4 {
+    margin-bottom: 2rem;
+    font-family: var(--main-font-medium);
+    color: rgba(var(--white-L), .4); 
+}
+
+.footer-content li {
+    padding-block: 1rem;
+    transition: background-color 0.3s;
+}
+
+.footer-content li a {
+    color: rgba(var(--white-L), .9); 
+    transition: color 0.3s;
+}
+
+.footer-content li a:hover {
+    color: rgba(var(--red-L), 1);  
+}
+
+.divider {
+    grid-column: 1/-1;
+    height: 3px;
+    margin-block: 2.4rem;
+    background-color: rgba(var(--white-L), .25);
+}
+
+/* Ajustes para responsividade */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-column: span 2; /* Em telas menores, cada conteúdo ocupa 2 colunas */
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-content {
+        grid-column: span var(--main-grid-columns); /* Em telas muito pequenas, ocupa todas as colunas */
+    }
+}
